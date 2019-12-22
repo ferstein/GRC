@@ -15,7 +15,7 @@ CXX           = D:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/bin
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mthumb -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mthumb -mfloat-abi=hard --sysroot=D:/BeagleBoneDebian-9-sysroot -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mthumb -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mthumb -mfloat-abi=hard --sysroot=D:/BeagleBoneDebian-9-sysroot -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include -I..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets -I..\..\qt-5.7.1-beagle\qtbase\include -I..\..\qt-5.7.1-beagle\qtbase\include\QtWidgets -I..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui -I..\..\qt-5.7.1-beagle\qtbase\include\QtGui -I..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore -I..\..\qt-5.7.1-beagle\qtbase\include\QtCore -I. -I. -Id:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\linux-beagleboard-g++
+INCPATH       = -I. -I..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include -I..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets -I..\..\..\qt-5.7.1-beagle\qtbase\include -I..\..\..\qt-5.7.1-beagle\qtbase\include\QtWidgets -I..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui -I..\..\..\qt-5.7.1-beagle\qtbase\include\QtGui -I..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore -I..\..\..\qt-5.7.1-beagle\qtbase\include\QtCore -I. -I. -Id:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\linux-beagleboard-g++
 QMAKE         = D:\qt-5.7.1-beagle\qtbase\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -33,7 +33,7 @@ MOVE          = move
 TAR           = 
 COMPRESS      = 
 DISTNAME      = grc1.0.0
-DISTDIR = D:\GRClt\GRC\.tmp\grc1.0.0
+DISTDIR = D:\GARAND-PROJECTS\GRClt\GRC\.tmp\grc1.0.0
 LINK          = D:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++
 LFLAGS        = -mfloat-abi=hard --sysroot=D:/BeagleBoneDebian-9-sysroot -Wl,-rpath,/usr/local/qt5/lib
 LIBS          = $(SUBLIBS) -LD:/qt-5.7.1-beagle/qtbase/lib -lQt5Widgets -lQt5Gui -lQt5Core -lrt -ldl -lpthread 
@@ -49,38 +49,39 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
+		er8300.cpp \
 		widget.cpp \
-		VISCA\VISCA.cpp \
 		SimpleGPIO.cpp \
 		analogjoystick.cpp \
 		gimbalcontrol.cpp \
 		serialport.cpp \
-		camera.cpp moc_widget.cpp
+		CameraControl.cpp moc_widget.cpp
 OBJECTS       = main.obj \
+		er8300.obj \
 		widget.obj \
-		VISCA.obj \
 		SimpleGPIO.obj \
 		analogjoystick.obj \
 		gimbalcontrol.obj \
 		serialport.obj \
-		camera.obj \
+		CameraControl.obj \
 		moc_widget.obj
-DIST          = VISCA\VISCA.h.bak widget.h \
-		VISCA\libvisca.h \
-		VISCA\VISCA.h \
+DIST          =  widget.h \
+		ConsoleEscSequ.h \
 		analogjoystick.h \
 		SimpleGPIO.h \
 		gimbalcontrol.h \
 		gimbal_defs.h \
 		serialport.h \
-		camera.h main.cpp \
+		er8300.h \
+		CameraControl.h \
+		visca_definitions.h main.cpp \
+		er8300.cpp \
 		widget.cpp \
-		VISCA\VISCA.cpp \
 		SimpleGPIO.cpp \
 		analogjoystick.cpp \
 		gimbalcontrol.cpp \
 		serialport.cpp \
-		camera.cpp
+		CameraControl.cpp
 QMAKE_TARGET  = grc
 DESTDIR       = 
 TARGET        = grc
@@ -93,101 +94,101 @@ $(TARGET): ui_widget.h $(OBJECTS)
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: GRC.pro d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\linux-beagleboard-g++\qmake.conf d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\spec_pre.prf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\unix.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\linux.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\sanitize.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base-unix.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-base.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-unix.conf \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\qdevice.pri \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\unix.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\linux.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\sanitize.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base-unix.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-base.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-unix.conf \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\qdevice.pri \
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\device_config.prf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_device_post.conf \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_arm_device_post.conf \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\qconfig.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_dbus_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_dbus_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_concurrent.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_core.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_dbus.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_gui.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_network.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_platformsupport_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_platformsupport_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_printsupport.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_sql.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_testlib.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_widgets.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xcb_qpa_lib_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xcb_qpa_lib_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xml.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_zlib_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_zlib_private.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_composeplatforminputcontextplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_composeplatforminputcontextplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_ibusplatforminputcontextplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_ibusplatforminputcontextplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qconnmanbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qconnmanbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevkeyboardplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevkeyboardplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevmouseplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevmouseplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtabletplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtabletplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtouchplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtouchplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgenericbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgenericbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgif.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgif.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qico.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qico.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qjpeg.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qjpeg.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qlinuxfb.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qlinuxfb.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qminimal.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qminimal.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qnmbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qnmbearer.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qoffscreen.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qoffscreen.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qsqlite.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qsqlite.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qtuiotouchplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qtuiotouchplugin.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qxcb.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qxcb.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_moc.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbuscpp2xml.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbusxml2cpp.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qlalr.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_rcc.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_syncqt.pri \
-		..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_uic.pri \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_device_post.conf \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_arm_device_post.conf \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\qconfig.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_dbus_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_dbus_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_concurrent.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_core.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_dbus.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_gui.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_network.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_platformsupport_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_platformsupport_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_printsupport.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_sql.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_testlib.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_widgets.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xcb_qpa_lib_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xcb_qpa_lib_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xml.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_zlib_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_zlib_private.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_composeplatforminputcontextplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_composeplatforminputcontextplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_ibusplatforminputcontextplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_ibusplatforminputcontextplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qconnmanbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qconnmanbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevkeyboardplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevkeyboardplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevmouseplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevmouseplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtabletplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtabletplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtouchplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtouchplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgenericbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgenericbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgif.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgif.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qico.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qico.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qjpeg.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qjpeg.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qlinuxfb.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qlinuxfb.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qminimal.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qminimal.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qnmbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qnmbearer.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qoffscreen.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qoffscreen.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qsqlite.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qsqlite.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qtuiotouchplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qtuiotouchplugin.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qxcb.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qxcb.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_moc.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbuscpp2xml.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbusxml2cpp.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qlalr.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_rcc.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_syncqt.pri \
+		..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_uic.pri \
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\qt_functions.prf \
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\qt_config.prf \
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\linux-beagleboard-g++\qmake.conf \
@@ -211,106 +212,106 @@ Makefile: GRC.pro d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\l
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\yacc.prf \
 		d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\lex.prf \
 		GRC.pro \
-		..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Widgets.prl \
-		..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Gui.prl \
-		..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Core.prl
+		..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Widgets.prl \
+		..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Gui.prl \
+		..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Core.prl
 	$(QMAKE) -spec devices/linux-beagleboard-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile GRC.pro
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\spec_pre.prf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\unix.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\linux.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\sanitize.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base-unix.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-base.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-unix.conf:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\qdevice.pri:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\unix.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\linux.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\sanitize.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\gcc-base-unix.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-base.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\common\g++-unix.conf:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\qdevice.pri:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\device_config.prf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_device_post.conf:
-..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_arm_device_post.conf:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\qconfig.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_dbus_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_dbus_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_concurrent.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_core.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_dbus.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_gui.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_network.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_platformsupport_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_platformsupport_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_printsupport.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_sql.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_testlib.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_widgets.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xcb_qpa_lib_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xcb_qpa_lib_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xml.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_zlib_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_zlib_private.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_composeplatforminputcontextplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_composeplatforminputcontextplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_ibusplatforminputcontextplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_ibusplatforminputcontextplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qconnmanbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qconnmanbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevkeyboardplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevkeyboardplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevmouseplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevmouseplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtabletplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtabletplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtouchplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtouchplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgenericbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgenericbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgif.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgif.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qico.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qico.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qjpeg.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qjpeg.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qlinuxfb.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qlinuxfb.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qminimal.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qminimal.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qnmbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qnmbearer.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qoffscreen.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qoffscreen.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qsqlite.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qsqlite.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qtuiotouchplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qtuiotouchplugin.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qxcb.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qxcb.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_moc.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbuscpp2xml.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbusxml2cpp.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qlalr.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_rcc.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_syncqt.pri:
-..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_uic.pri:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_device_post.conf:
+..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\common\linux_arm_device_post.conf:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\qconfig.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_dbus_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_dbus_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_bootstrap_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_bootstrap_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_concurrent_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_concurrent.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_core_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_core.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_dbus_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_dbus.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_gui_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_gui.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_network_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_network.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_platformsupport_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_platformsupport_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_printsupport_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_printsupport.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_sql_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_sql.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_testlib_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_testlib.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_widgets_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_widgets.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xcb_qpa_lib_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xcb_qpa_lib_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_xml_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_xml.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_lib_zlib_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_lib_zlib_private.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_composeplatforminputcontextplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_composeplatforminputcontextplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_ibusplatforminputcontextplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_ibusplatforminputcontextplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qconnmanbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qconnmanbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevkeyboardplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevkeyboardplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevmouseplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevmouseplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtabletplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtabletplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qevdevtouchplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qevdevtouchplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgenericbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgenericbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qgif.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qgif.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qico.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qico.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qjpeg.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qjpeg.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qlinuxfb.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qlinuxfb.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qminimal.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qminimal.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qnmbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qnmbearer.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qoffscreen.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qoffscreen.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qsqlite.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qsqlite.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qtuiotouchplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qtuiotouchplugin.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules-inst\qt_plugin_qxcb.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_plugin_qxcb.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_moc.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbuscpp2xml.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qdbusxml2cpp.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_qlalr.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_rcc.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_syncqt.pri:
+..\..\..\qt-5.7.1-beagle\qtbase\mkspecs\modules\qt_tool_uic.pri:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\qt_functions.prf:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\qt_config.prf:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\devices\linux-beagleboard-g++\qmake.conf:
@@ -334,9 +335,9 @@ d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\exceptions.prf:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\yacc.prf:
 d:\qt-everywhere-opensource-src-5.7.1\qtbase\mkspecs\features\lex.prf:
 GRC.pro:
-..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Widgets.prl:
-..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Gui.prl:
-..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Core.prl:
+..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Widgets.prl:
+..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Gui.prl:
+..\..\..\qt-5.7.1-beagle\qtbase\lib\libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec devices/linux-beagleboard-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile GRC.pro
 
@@ -351,8 +352,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@if not exist $(DISTDIR) mkdir $(DISTDIR) & if not exist $(DISTDIR) exit 1
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)\
-	$(COPY_FILE) --parents widget.h VISCA\libvisca.h VISCA\VISCA.h analogjoystick.h SimpleGPIO.h gimbalcontrol.h gimbal_defs.h serialport.h camera.h $(DISTDIR)\
-	$(COPY_FILE) --parents main.cpp widget.cpp VISCA\VISCA.cpp SimpleGPIO.cpp analogjoystick.cpp gimbalcontrol.cpp serialport.cpp camera.cpp $(DISTDIR)\
+	$(COPY_FILE) --parents widget.h ConsoleEscSequ.h analogjoystick.h SimpleGPIO.h gimbalcontrol.h gimbal_defs.h serialport.h er8300.h CameraControl.h visca_definitions.h $(DISTDIR)\
+	$(COPY_FILE) --parents main.cpp er8300.cpp widget.cpp SimpleGPIO.cpp analogjoystick.cpp gimbalcontrol.cpp serialport.cpp CameraControl.cpp $(DISTDIR)\
 	$(COPY_FILE) --parents widget.ui $(DISTDIR)\
 
 
@@ -382,207 +383,207 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc_widget.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_widget.cpp
-moc_widget.cpp: ..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
+moc_widget.cpp: ..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
 		widget.h \
-		..\..\qt-5.7.1-beagle\qtbase\bin\moc.exe
-	D:\qt-5.7.1-beagle\qtbase\bin\moc.exe $(DEFINES) -Id:/qt-everywhere-opensource-src-5.7.1/qtbase/mkspecs/devices/linux-beagleboard-g++ -ID:/GRClt/GRC -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtWidgets -ID:/qt-5.7.1-beagle/qtbase/include -ID:/qt-5.7.1-beagle/qtbase/include/QtWidgets -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtGui -ID:/qt-5.7.1-beagle/qtbase/include/QtGui -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtCore -ID:/qt-5.7.1-beagle/qtbase/include/QtCore -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1 -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1/arm-linux-gnueabihf -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1/backward -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/6.3.1/include -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/6.3.1/include-fixed -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include -ID:/BeagleBoneDebian-9-sysroot/usr/include/arm-linux-gnueabihf -ID:/BeagleBoneDebian-9-sysroot/usr/include widget.h -o moc_widget.cpp
+		..\..\..\qt-5.7.1-beagle\qtbase\bin\moc.exe
+	D:\qt-5.7.1-beagle\qtbase\bin\moc.exe $(DEFINES) -Id:/qt-everywhere-opensource-src-5.7.1/qtbase/mkspecs/devices/linux-beagleboard-g++ -ID:/GARAND-PROJECTS/GRClt/GRC -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtWidgets -ID:/qt-5.7.1-beagle/qtbase/include -ID:/qt-5.7.1-beagle/qtbase/include/QtWidgets -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtGui -ID:/qt-5.7.1-beagle/qtbase/include/QtGui -ID:/qt-everywhere-opensource-src-5.7.1/qtbase/include/QtCore -ID:/qt-5.7.1-beagle/qtbase/include/QtCore -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1 -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1/arm-linux-gnueabihf -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/6.3.1/backward -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/6.3.1/include -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/6.3.1/include-fixed -Id:/gcc-linaro-6.3.1-2017.05-i686-mingw32_arm-linux-gnueabihf/arm-linux-gnueabihf/include -ID:/BeagleBoneDebian-9-sysroot/usr/include/arm-linux-gnueabihf -ID:/BeagleBoneDebian-9-sysroot/usr/include widget.h -o moc_widget.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -590,7 +591,7 @@ compiler_uic_make_all: ui_widget.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_widget.h
 ui_widget.h: widget.ui \
-		..\..\qt-5.7.1-beagle\qtbase\bin\uic.exe
+		..\..\..\qt-5.7.1-beagle\qtbase\bin\uic.exe
 	D:\qt-5.7.1-beagle\qtbase\bin\uic.exe widget.ui -o ui_widget.h
 
 compiler_yacc_decl_make_all:
@@ -604,437 +605,516 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 ####### Compile
 
 main.obj: main.cpp widget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QApplication \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qeventloop.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qeventloop.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qdesktopwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qdesktopwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qguiapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qguiapplication.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qinputmethod.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qinputmethod.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QString \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QLockFile \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlockfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qlockfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QDir \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdir.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdir.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfileinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfileinfo.h
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QApplication \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qeventloop.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qeventloop.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qdesktopwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qguiapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qguiapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qinputmethod.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qinputmethod.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QString \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QLockFile \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlockfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qlockfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QDir \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdir.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdir.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfileinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfileinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.obj main.cpp
 
-widget.obj: widget.cpp widget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
-		ui_widget.h \
-		analogJoystick.h \
-		gimbalcontrol.h \
-		camera.h \
-		VISCA/VISCA.h \
-		serialport.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.obj widget.cpp
+er8300.obj: er8300.cpp er8300.h \
+		visca_definitions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o er8300.obj er8300.cpp
 
-VISCA.obj: VISCA\VISCA.cpp VISCA/VISCA.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VISCA.obj VISCA\VISCA.cpp
+widget.obj: widget.cpp widget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QWidget \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qwindowdefs_win.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmargins.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpaintdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrect.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsize.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpalette.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qcolor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgb.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qrgba64.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qbrush.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qmatrix.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpolygon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qregion.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdatastream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qline.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qtransform.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\painting\qpainterpath.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qimage.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qpixelformat.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qpixmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfont.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontmetrics.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\text\qfontinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qsizepolicy.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qcursor.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qkeysequence.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qurlquery.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfile.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qfiledevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\math3d\qvector2d.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qtouchdevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QTimer \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasictimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qbasictimer.h \
+		ui_widget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QVariant \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QAction \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qaction.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qaction.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qicon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\image\qicon.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qactiongroup.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qactiongroup.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QApplication \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qeventloop.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qeventloop.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\kernel\qdesktopwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qguiapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qguiapplication.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qinputmethod.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\kernel\qinputmethod.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QButtonGroup \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qbuttongroup.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qbuttongroup.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QComboBox \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qcombobox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qcombobox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\itemviews\qabstractitemdelegate.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qstyleoption.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\styles\qstyleoption.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qabstractspinbox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtGui\qvalidator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\gui\util\qvalidator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregularexpression.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregularexpression.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qslider.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qslider.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractslider.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qabstractslider.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qstyle.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\styles\qstyle.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qtabbar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qtabbar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qtabwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qtabwidget.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qrubberband.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qrubberband.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qframe.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qframe.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qabstractitemmodel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\itemmodels\qabstractitemmodel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QGroupBox \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qgroupbox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qgroupbox.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QHeaderView \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qheaderview.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\itemviews\qheaderview.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractitemview.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\itemviews\qabstractitemview.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qabstractscrollarea.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qitemselectionmodel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\itemmodels\qitemselectionmodel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QLCDNumber \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qlcdnumber.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qlcdnumber.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QLabel \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qlabel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qlabel.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QPushButton \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qpushbutton.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qpushbutton.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\qabstractbutton.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\widgets\widgets\qabstractbutton.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QSlider \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtWidgets\QTabWidget \
+		analogjoystick.h \
+		gimbalcontrol.h \
+		CameraControl.h \
+		serialport.h \
+		er8300.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.obj widget.cpp
 
 SimpleGPIO.obj: SimpleGPIO.cpp SimpleGPIO.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SimpleGPIO.obj SimpleGPIO.cpp
@@ -1043,132 +1123,132 @@ analogjoystick.obj: analogjoystick.cpp analogjoystick.h \
 		SimpleGPIO.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o analogjoystick.obj analogjoystick.cpp
 
-gimbalcontrol.obj: gimbalcontrol.cpp ..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QElapsedTimer \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qelapsedtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qelapsedtimer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
-		..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QDebug \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
+gimbalcontrol.obj: gimbalcontrol.cpp ..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QElapsedTimer \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qelapsedtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qelapsedtimer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobal.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qconfig.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qconfig.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qfeatures.h \
+		..\..\..\qt-5.7.1-beagle\qtbase\src\corelib\global\qfeatures.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsystemdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qprocessordetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qcompilerdetection.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypeinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qtypetraits.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qisenum.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qsysinfo.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qlogging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qflags.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qbasicatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_bootstrap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qgenericatomic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_cxx11.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\arch\qatomic_msvc.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qglobalstatic.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\thread\qmutex.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnumeric.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qversiontagging.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\QDebug \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qdebug.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qalgorithms.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhash.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qchar.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qiterator.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qrefcount.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qarraydata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qhashfunctions.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpair.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearraylist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qbytearray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\global\qnamespace.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstring.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringbuilder.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringlist.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qregexp.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qstringmatcher.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qmap.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qtextstream.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\io\qiodevice.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobjectdefs_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qcoreevent.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qscopedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qmetatype.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvarlengtharray.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontainerfwd.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qobject_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qlocale.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\kernel\qvariant.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qshareddata.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qvector.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qpoint.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qset.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qcontiguouscache.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\include\QtCore\qsharedpointer_impl.h \
+		..\..\..\qt-everywhere-opensource-src-5.7.1\qtbase\src\corelib\tools\qsharedpointer_impl.h \
 		gimbalcontrol.h \
 		gimbal_defs.h \
 		serialport.h
@@ -1177,10 +1257,11 @@ gimbalcontrol.obj: gimbalcontrol.cpp ..\..\qt-everywhere-opensource-src-5.7.1\qt
 serialport.obj: serialport.cpp serialport.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o serialport.obj serialport.cpp
 
-camera.obj: camera.cpp camera.h \
-		VISCA/VISCA.h \
-		serialport.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o camera.obj camera.cpp
+CameraControl.obj: CameraControl.cpp CameraControl.h \
+		serialport.h \
+		er8300.h \
+		ConsoleEscSequ.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CameraControl.obj CameraControl.cpp
 
 moc_widget.obj: moc_widget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_widget.obj moc_widget.cpp

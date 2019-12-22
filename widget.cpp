@@ -1,13 +1,15 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <string.h>
-#include "analogJoystick.h"
+#include <math.h>
+#include "analogjoystick.h"
 #include "gimbalcontrol.h"
-#include "camera.h"
+#include "CameraControl.h"
+#include "er8300.h"
 
-AnalogJoystick *Joystick;
-GimbalControl *BGC;
-Camera *Cam;
+static AnalogJoystick *Joystick;
+static GimbalControl *BGC;
+static CameraControl *Cam;
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -21,29 +23,37 @@ Widget::Widget(QWidget *parent) :
 
     Joystick = new AnalogJoystick;
     BGC = new GimbalControl;
-    Cam = new Camera;
+    Cam = new CameraControl;
 
     connect(&this->JoyTimer,SIGNAL(timeout()),this,SLOT(get_joystick_raw_data()));
-    this->JoyTimer.start(2);
+    this->JoyTimer.start(10);
 
     connect(&this->BgcTimer,SIGNAL(timeout()),this,SLOT(BgcProcess()));
-    this->BgcTimer.start(16);
+    this->BgcTimer.start(20);
 
     connect(&this->CameraTimer,SIGNAL(timeout()),this,SLOT(CameraProcess()));
-    this->CameraTimer.start(16);
+    this->CameraTimer.start(5);
+
+    for(unsigned int i=0;i<sizeof (Cam->fcber8300->WBmodeTable.Value);i++){
+    ui->comboBoxWB->addItem(Cam->fcber8300->WBmodeTable.ModeReadable[i]);}
+
+    for(unsigned int i=0;i<sizeof (Cam->fcber8300->ColorBarTable.Value);i++){
+    ui->comboBoxColorBar->addItem(Cam->fcber8300->ColorBarTable.Readable[i]);}
+
 }
+
 void Widget::get_joystick_raw_data(void)
 {
     Joystick->Process();
 
     if(ui->tab_raw->isActiveWindow())
     {
-        ui->lcd0_0->display((int)Joystick->State.Out[0]);
-        ui->lcd0_1->display((int)Joystick->State.Out[1]);
-        ui->lcd0_2->display((int)Joystick->State.Out[2]);
-        ui->lcd0_3->display((int)Joystick->State.Out[3]);
-        ui->lcd0_4->display((int)Joystick->State.Out[4]);
-        ui->lcd0_5->display((int)Joystick->State.Out[5]);
+        ui->lcd0_0->display(static_cast<int>(Joystick->State.Out[0]));
+        ui->lcd0_1->display(static_cast<int>(Joystick->State.Out[1]));
+        ui->lcd0_2->display(static_cast<int>(Joystick->State.Out[2]));
+        ui->lcd0_3->display(static_cast<int>(Joystick->State.Out[3]));
+        ui->lcd0_4->display(static_cast<int>(Joystick->State.Out[4]));
+        ui->lcd0_5->display(static_cast<int>(Joystick->State.Out[5]));
     }
 }
 
@@ -53,11 +63,12 @@ void Widget::BgcProcess(void)
     //printf("Zoom Compensation is %.3f \n",BGC->ZoomCompensation);
 
     BGC->ctrl.CONTROL_MODE=SPEED;
-    BGC->ctrl.SPEED_YAW  =(Joystick->State.Out[Joystick->Yw]/BGC->ZoomCompensation)+
-            Joystick->State.offset[Joystick->Yw];
-    BGC->ctrl.SPEED_PITCH=(Joystick->State.Out[Joystick->Pt]/BGC->ZoomCompensation)+
-            Joystick->State.offset[Joystick->Pt];
-    BGC->ctrl.SPEED_ROLL =(Joystick->State.Out[Joystick->Rl] + Joystick->State.offset[Joystick->Rl]);
+    BGC->ctrl.SPEED_YAW =static_cast<int16_t>((Joystick->State.Out[Joystick->Yw]/BGC->ZoomCompensation)+
+            Joystick->State.offset[Joystick->Yw]);
+    BGC->ctrl.SPEED_PITCH=static_cast<int16_t>((Joystick->State.Out[Joystick->Pt]/BGC->ZoomCompensation)+
+            Joystick->State.offset[Joystick->Pt]);
+    BGC->ctrl.SPEED_ROLL =static_cast<int16_t>((Joystick->State.Out[Joystick->Rl] +
+            Joystick->State.offset[Joystick->Rl]));
 
     BGC->Process();
     if(BGC->GimbalCtrlEnabled!=0){
@@ -71,9 +82,9 @@ void Widget::BgcProcess(void)
 void Widget::CameraProcess(void)
 {
     //State.Out[i]+=State.offset[i];
-    Cam->ZoomJoy     = (Joystick->State.Out[Joystick->Zm]+Joystick->State.offset[Joystick->Zm]); //LEFT Y  raw[1]
-    Cam->FocusPosJoy = (Joystick->State.Out[Joystick->FP]); //LEFT Z  raw[2]
-    Cam->FocusSpeedJoy=(Joystick->State.Out[Joystick->FS]); //RIGHT Z raw[5]
+    Cam->ZoomJoy     = static_cast<int>((Joystick->State.Out[Joystick->Zm]+Joystick->State.offset[Joystick->Zm])); //LEFT Y  raw[1]
+    Cam->FocusPosJoy = static_cast<int>((Joystick->State.Out[Joystick->FP])); //LEFT Z  raw[2]
+    Cam->FocusSpeedJoy=static_cast<int>((Joystick->State.Out[Joystick->FS])); //RIGHT Z raw[5]
     Cam->process();
 
     if(Cam->CamCtrlEnabled!=0){
@@ -83,8 +94,11 @@ void Widget::CameraProcess(void)
         ui->labeCamCtrl->setText("Cam OFF");
     }
     char str[10];
-    sprintf(str,"ZR %.1f",Cam->ZoomMagnification);
+    sprintf(str,"ZR %.1f",static_cast<double>(Cam->ZoomMagnification));
     ui->labeZoomRatio->setText(str);
+
+    Cam->fcber8300->FocusPositionToDistanceAndModeFromContext(str);
+    ui->labeFocusPos->setText(str);
 }
 
 Widget::~Widget()
@@ -94,25 +108,25 @@ Widget::~Widget()
 
 void Widget::on_SliderYawFluid_valueChanged(int value)
 {
-    Joystick->State.FilterKoef[Joystick->Yw]=value;
+    Joystick->State.FilterKoef[Joystick->Yw]=static_cast<uint8_t>(value);
     ui->lcdYawFluid->display(value);
 }
 
 void Widget::on_SliderPitchFluid_valueChanged(int value)
 {
-    Joystick->State.FilterKoef[Joystick->Pt]=value;
+    Joystick->State.FilterKoef[Joystick->Pt]=static_cast<uint8_t>(value);
     ui->lcdPitchFluid->display(value);
 }
 
 void Widget::on_SliderRollFluid_valueChanged(int value)
 {
-    Joystick->State.FilterKoef[Joystick->Rl]=value;
+    Joystick->State.FilterKoef[Joystick->Rl]=static_cast<uint8_t>(value);
     ui->lcdRollFluid->display(value);
 }
 
 void Widget::on_SliderZoomFluid_valueChanged(int value)
 {
-    Joystick->State.FilterKoef[Joystick->Zm]=value;
+    Joystick->State.FilterKoef[Joystick->Zm]=static_cast<uint8_t>(value);
     ui->lcdZoomFluid->display(value);
 }
 
@@ -219,75 +233,92 @@ void Widget::on_SliderZoomOffset_valueChanged(int value)
 
 void Widget::on_tabBar_currentChanged(int index)
 {
-    ui->SliderYawOffset->setValue(Joystick->State.offset[Joystick->Yw]);
+    ui->SliderYawOffset->setValue(static_cast<int>(Joystick->State.offset[Joystick->Yw]));
     ui->lcdYawOffset->display(ui->SliderYawOffset->value());
-    ui->SliderRollOffset->setValue(Joystick->State.offset[Joystick->Rl]);
+    ui->SliderRollOffset->setValue(static_cast<int>(Joystick->State.offset[Joystick->Rl]));
     ui->lcdRollOffset->display(ui->SliderRollOffset->value());
-    ui->SliderPitchOffset->setValue(Joystick->State.offset[Joystick->Pt]);
+    ui->SliderPitchOffset->setValue(static_cast<int>(Joystick->State.offset[Joystick->Pt]));
     ui->lcdPitchOffset->display(ui->SliderPitchOffset->value());
-    ui->SliderZoomOffset->setValue(Joystick->State.offset[Joystick->Zm]);
+    ui->SliderZoomOffset->setValue(static_cast<int>(Joystick->State.offset[Joystick->Zm]));
     ui->lcdZoomOffset->display(ui->SliderZoomOffset->value());
 
-    ui->SliderYawSpeed->setValue(Joystick->State.volume[Joystick->Yw]);
+    ui->SliderYawSpeed->setValue(static_cast<int>(Joystick->State.volume[Joystick->Yw]));
     ui->lcdYawSpeed->display(ui->SliderYawSpeed->value());
-    ui->SliderRollSpeed->setValue(Joystick->State.volume[Joystick->Rl]);
+    ui->SliderRollSpeed->setValue(static_cast<int>(Joystick->State.volume[Joystick->Rl]));
     ui->lcdRollSpeed->display(ui->SliderRollSpeed->value());
-    ui->SliderPitchSpeed->setValue(Joystick->State.volume[Joystick->Pt]);
+    ui->SliderPitchSpeed->setValue(static_cast<int>(Joystick->State.volume[Joystick->Pt]));
     ui->lcdPitchSpeed->display(ui->SliderPitchSpeed->value());
-    ui->SliderZoomSpeed->setValue(Joystick->State.volume[Joystick->Zm]);
+    ui->SliderZoomSpeed->setValue(static_cast<int>(Joystick->State.volume[Joystick->Zm]));
     ui->lcdZoomSpeed->display(ui->SliderZoomSpeed->value());
 
-    ui->SliderYawFluid->setValue(Joystick->State.FilterKoef[Joystick->Yw]);
+    ui->SliderYawFluid->setValue(static_cast<int>(Joystick->State.FilterKoef[Joystick->Yw]));
     ui->lcdYawFluid->display(ui->SliderYawFluid->value());
-    ui->SliderRollFluid->setValue(Joystick->State.FilterKoef[Joystick->Rl]);
+    ui->SliderRollFluid->setValue(static_cast<int>(Joystick->State.FilterKoef[Joystick->Rl]));
     ui->lcdRollFluid->display(ui->SliderRollFluid->value());
-    ui->SliderPitchFluid->setValue(Joystick->State.FilterKoef[Joystick->Pt]);
+    ui->SliderPitchFluid->setValue(static_cast<int>(Joystick->State.FilterKoef[Joystick->Pt]));
     ui->lcdPitchFluid->display(ui->SliderPitchFluid->value());
-    ui->SliderZoomFluid->setValue(Joystick->State.FilterKoef[Joystick->Zm]);
+    ui->SliderZoomFluid->setValue(static_cast<int>(Joystick->State.FilterKoef[Joystick->Zm]));
     ui->lcdZoomFluid->display(ui->SliderZoomFluid->value());
     index = index-1;
 }
 
 void Widget::on_ButFocusAuto_pressed()
 {
-    Cam->CommandSelector = 3;//Focus Auto
+
+    Cam->fcber8300->Camera.command = FocusAuto;//Focus Auto
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.FocusMode = Cam->fcber8300->FocusModeTable.Value[0];
 }
-
-
 void Widget::on_ButFocusManual_pressed()
 {
-    Cam->CommandSelector = 2;//Focus manual
+     Cam->fcber8300->Camera.command = FocusManual;//Focus manual
+     if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+     Cam->fcber8300->Context.FocusMode = Cam->fcber8300->FocusModeTable.Value[1];
 }
 
 void Widget::on_ButFocusOneToutch_pressed()
 {
-    Cam->CommandSelector = 4;//Focus One Push;
+    Cam->fcber8300->Camera.command = FocusOnePushTrigger;//Focus One Push
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
 }
 
 void Widget::on_ButDzoomOn_clicked()
 {
-    Cam->CommandSelector = 5;    //Digital zoom on
+    Cam->fcber8300->Camera.command = DzoomOn;//DZoom on
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.DZoomMode = Cam->fcber8300->DZoomModeTable.Value[2];//Digital zoom on
 }
 
 void Widget::on_ButDzoomOff_clicked()
 {
-    Cam->CommandSelector = 6;    //Digital zoom off
+    Cam->fcber8300->Camera.command = DzoomOff;//DZoom off
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.DZoomMode = Cam->fcber8300->DZoomModeTable.Value[3];//Digital zoom off
 }
 
 void Widget::on_ButDzoomSeparate_clicked()
 {
-    Cam->CommandSelector = 7;    //Digital zoom separate
+    Cam->fcber8300->Camera.command = DzoomSeparate;//Digital zoom separate
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.DZoomMode = Cam->fcber8300->DZoomModeTable.Value[1];
 }
 
 void Widget::on_ButDzoomCombine_clicked()
 {
-    Cam->CommandSelector = 8;    //Digital zoom combine mode
+
+    Cam->fcber8300->Camera.command = DzoomCombine;//Digital zoom combine mode
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.DZoomMode = Cam->fcber8300->DZoomModeTable.Value[0];
 }
 
 void Widget::on_SliderDigitalZoom_valueChanged(int value)
 {
-    Cam->DigitalZoomValue = value;
-    Cam->CommandSelector = 9;    //Digital zoom direct
+    if(Cam->fcber8300->Context.DZoomMode != Cam->fcber8300->DZoomModeTable.Value[3] ){ //If Dzoom  is not Off
+        Cam->fcber8300->Camera.value = static_cast<int16_t>(value);
+        Cam->fcber8300->Camera.command = DzoomDirect;    //Digital zoom direct
+        if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+        Cam->fcber8300->Context.DZoom=static_cast<uint8_t>(value);
+    }
 }
 
 void Widget::on_ButEnCamCtrl_clicked()
@@ -318,7 +349,79 @@ void Widget::on_ButCalibrateJoysticks_clicked()
 
 void Widget::on_SliderZoomComp_valueChanged(int value)
 {
-    BGC->ZoomCompensationGain=((float)(value))/100.0f;
+    BGC->ZoomCompensationGain=(static_cast<float>(value))/100.0f;
     if(value<=1)ui->labeZoomComp->setText("ZC OFF");
     else ui->labeZoomComp->setText("ZC On");
 }
+
+void Widget::on_tabBar_tabBarClicked(int index)
+{
+    switch(index)
+    {
+    case 0:{// Speed tab
+
+    }break;
+    case 1:{//Fluid tab
+
+    }break;
+    case 2:{//Offset tab
+
+    }break;
+    case 3:{//Zoom tab
+
+    }break;
+    case 4:{//Focus tab
+
+    }break;
+    case 5:{//Raw nab
+
+    }break;
+    case 6:{//color tab
+        ui->comboBoxWB->setCurrentIndex( Cam->fcber8300->Context.WBmode);
+    }break;
+    case 7:{//Exposure tab
+
+    }break;
+    default: break;
+    }
+}
+
+
+void Widget::on_comboBoxWB_currentIndexChanged(int index)
+{
+    switch(index){
+    case 0:Cam->fcber8300->Camera.command = WbAuto;break;
+    case 1:Cam->fcber8300->Camera.command = WbIndoor;break;
+    case 2:Cam->fcber8300->Camera.command = WbOutdoor;break;
+    case 3:Cam->fcber8300->Camera.command = WbOnePush;break;
+    case 4:Cam->fcber8300->Camera.command = WbAtw;break;
+    case 5:Cam->fcber8300->Camera.command = WbManual;break;
+    case 6:Cam->fcber8300->Camera.command = WbOutdoorAuto;break;
+    case 7:Cam->fcber8300->Camera.command = WbsodiumLampAuto;break;
+    case 9:Cam->fcber8300->Camera.command = WbsodiumLamp;break;
+    case 10:Cam->fcber8300->Camera.command= WbsodiumLampOutdoorAuto;break;
+    default: printf("UI ERROR : Bed WB Index %i \r\n",index);return;
+    }
+    if(Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera)<0)return;
+    Cam->fcber8300->Context.WBmode = index & 0xff;
+}
+
+void Widget::on_ButWBonePushTrigger_clicked()
+{
+    Cam->fcber8300->Camera.command = WbOnePushTrigger;
+    Cam->CbCommadSemndWrespond(&Cam->fcber8300->Camera);
+}
+
+void Widget::on_comboBoxColorBar_currentIndexChanged(int index)
+{
+    switch(index){
+    case 0:break;
+    case 1:break;
+    case 2:break;
+    case 3:break;
+    default: printf("UI ERROR : Bed Color Bar  Index %i \r\n",index);return;
+
+    }
+}
+
+

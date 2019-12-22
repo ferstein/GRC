@@ -1,132 +1,191 @@
-#include "camera.h"
-#include "VISCA/VISCA.h"
+#include "CameraControl.h"
 #include "serialport.h"
+#include "ConsoleEscSequ.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include <math.h>
+#include <chrono>
+#include <cinttypes>
+using namespace std;
+using namespace std::chrono;
 
-Camera::Camera()
+CameraControl::CameraControl()
 {
-    Init();
-}
-Camera::~Camera()
-{
-    close(fd);
-}
-
-void Camera::Init(void)
-{
+    fcber8300=new er8300;
     printf ("Opening camera control serial port! \n");
-    fd=serial.init("/dev/ttyO4",Baud115200);
-    if(fd>0) printf("Camera serial opened %i \n",fd);
-    else perror("Camera serial error :");
-    CamCtrlEnabled=1;
-    camEO.camnum=CAM1;
-    camEO.category=VISCA_CATEGORY_CAMERA1;
+    fcber8300->Camera.fd=serial.init("/dev/ttyO4",Baud115200);
+    if(fcber8300->Camera.fd>0){
+        printf("Camera serial opened ...initialization %i \n",fcber8300->Camera.fd);
+
+        CamCtrlEnabled=1;
+        ProSt=SendCommands;
+        isOnline = false;
+        RespondTimeShtamp=0;
+    }
+    else{
+
+        perror("Camera serial error :");
+        exit (EXIT_FAILURE);
+    }
+
+}
+CameraControl::~CameraControl()
+{
+    close(fcber8300->Camera.fd);
+    delete fcber8300;
 }
 
-void Camera::process(void)
+void CameraControl::Init(void)
 {
-    switch(CommandSelector){
-    case 0:{ //Zoom speed control section
-        ZoomSpeed = abs(ZoomJoy/40);
-        if(ZoomSpeed>7)ZoomSpeed=7;
-        if(ZoomJoy>1) {camEO.command=visca_zoom_tele_speed;}
-        else
-            if(ZoomJoy<-1){camEO.command=visca_zoom_wide_speed;}
-            else {camEO.command=visca_zoom_stop;}
-        camEO.value=ZoomSpeed;
-    }break;
-    case 1:{ //Focus
-        FocusPos+=FocusSpeedJoy;
-        if(FocusPos<0x1000)FocusPos=0x1000;
-        if(FocusPos>0xE000)FocusPos=0xE000;
-        int focus = FocusPos+FocusPosJoy*10;
-        if(focus<0x1000)focus=0x1000;
-        if(focus>0xE000)focus=0xE000;
-        camEO.command=visca_focus_direct;
-        camEO.value = focus;
-        CommandSelector=10;
-    }break;
-    case 2:{camEO.command=visca_focus_manual;}break;           //Focus manual
-    case 3:{camEO.command=visca_focus_auto;}break;             //Focus Auto
-    case 4:{camEO.command=visca_focus_one_push_trigger;}break; //Focus One Push;
-    case 5:{camEO.command=visca_dzoom_on; }break;              //Digital zoom on
-    case 6:{camEO.command=visca_dzoom_off; }break;             //Digital zoom off
-    case 7:{camEO.command=visca_dzoom_separate_mode; }break;   //Digital zoom separate
-    case 8:{camEO.command=visca_dzoom_combine_mode; }break;    //Digital zoom combine mode
-    case 9:{camEO.command=visca_dzoom_direct;                  //Digital zoom direct
-        if(DigitalZoomValue>0xeb)DigitalZoomValue = 0xeb;
-        camEO.value = DigitalZoomValue;}break;
-    default :{CommandSelector=0;}break;
-    }
-    if(CamCtrlEnabled!=0){
-        ViscaCamCommandPack(&visca_paket,&camEO);
-        write(fd,&visca_paket.bytes,visca_paket.length);
-        write(fd,"\r\n",2);
 
-        if(CommandSelector==0){
-            camEO.inquiry=CAM_ZoomPosInq;
-            ViscaInquiryCommandPack(&visca_paket,&camEO);
-            write(fd,&visca_paket.bytes,visca_paket.length);
-            write(fd,"\r\n",2);
+}
+
+void CameraControl::ZoomSpeedPackAndSend( VISCACamera_t * Cam){
+    int r;
+    int ZoomSpeed = static_cast<int>(fabs(ZoomJoy/40));
+    if(ZoomSpeed>7)ZoomSpeed=7;
+    Cam->value=static_cast<int16_t>(ZoomSpeed);
+    if(ZoomJoy>1) {Cam->command=ZoomTeleSpeed;
+    }
+    else{
+        if(ZoomJoy<-1){Cam->command=ZoomWideSpeed;
+        }
+        else {Cam->command=ZoomStop;
+        }
+    }
+    fcber8300->CommandPack(&visca_paket,Cam);
+    milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+    Cam->TimeSend = ms.count();
+    r=write(Cam->fd,&visca_paket.bytes,visca_paket.length);
+    if(r<0)printf("\033[0;31m %lli:Zoom send error ! %i\033[0m\n",Cam->TimeSend ,r);
+}
+
+void CameraControl::FocusPackAndSend( VISCACamera_t * Cam){
+    static volatile int FocusPosManualMode=0;
+    static volatile int FocusPosEx=0;
+    int r;
+    if(fcber8300->Context.FocusMode == fcber8300->FocusModeTable.Value[1]){//if focus is in manual mode
+        FocusPosManualMode+=FocusSpeedJoy/20;
+        FocusPosEx= FocusPosManualMode+FocusPosJoy*4;
+
+        if(FocusPosManualMode<0x1000)FocusPosManualMode=0x1000;
+        if(FocusPosManualMode>0xE000)FocusPosManualMode=0xE000;
+
+        if(FocusPosEx<0x1000)FocusPosEx=0x1000;
+        if(FocusPosEx>0xE000)FocusPosEx=0xE000;
+        Cam->command=FocusDirect;
+        Cam->value = static_cast<int16_t>(FocusPosEx);
+        fcber8300->CommandPack(&visca_paket,Cam);
+        milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+        Cam->TimeSend = ms.count();
+        r = write(Cam->fd,&visca_paket.bytes,visca_paket.length);
+        if(r<0)printf("\033[0;31m %lli:Focus send error ! %i\033[0m\n",Cam->TimeSend,r);
+    }
+}
+int CameraControl::CbCommadSemndWrespond( VISCACamera_t * Cam){
+    int r = 0,len=0;
+    if(!isOnline)return -2;
+    if(Cam == nullptr)return -3;
+    if(Cam->command == 0)return -4;
+    unsigned char cbuf[64];
+
+    ProSt = MuteHighPriorityCommands;
+
+    r = fcber8300->CommandPack(&visca_paket,Cam);
+    milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+    Cam->TimeSend = ms.count();
+    while(Cam->TimeSend < ms.count()-50);
+    len = read(Cam->fd,&cbuf,63);
+    ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+
+    r = write(Cam->fd,&visca_paket.bytes,visca_paket.length);
+    while(Cam->TimeSend < ms.count()-300){
+        len = read(Cam->fd,&cbuf,63);
+        if(len > 0 ){
+            //TODO: parse buf
         }
     }
 
-    CommandSelector++;
-    if(CommandSelector>1)CommandSelector=0;
-
-    char buf[40];
-    int len;
-    len = read(fd,&buf,100);
-    if(len>0){
-
-        //printf("Camera says %i \n",len);
-        //for(int i=0;i<len;i++) printf("0x%02X ",buf[i]);
-        //printf("\n");
-
-        ViscaParseBuf ((uint8_t*)buf,len ,&viscaParser,&camEO);
-        ZoomMagnification=( ZoomMagnification*0.8 ) + (0.2* ZoomPositionToMagnification(camEO.ZoomPosition));
-    }
+    if(r<0) printf("\033[0;31m %lli:Camera command send error ! %i\033[0m\n",Cam->TimeSend,r);
+    ProSt = SendCommands;
+    return r;
 }
-float Camera::ZoomPositionToMagnification(uint32_t position)
-{
-    int i;
-    float opt,dig;
-    const uint16_t OpticalZoomTable [12]={
-        /* 1× */0x0000,/* 2× */0x1970,/* 3× */0x249C,/* 4× */0x2B5F,
-        /* 5× */0x3020,/* 6× */0x33C4,/* 7× */0x36B7,/* 8× */0x392F,
-        /* 9× */0x3B4D,/* 10× */0x3D1E,/* 11× */0x3EAD,/* 12× */0x4000};
 
-    const uint16_t DigitalZoomTable [12]={
-        /* 1× */0x4000,/* 2× */0x6000,/* 3× */0x6A80,/* 4× */0x7000,
-        /* 5× */0x7300,/* 6× */0x7540,/* 7× */0x76C0,/* 8× */0x7800,
-        /* 9× */0x78C0,/* 10× */ 0x7980,/* 11× */ 0x7A00,/* 12× */ 0x7AC0};
-    //if(position==0)return(1);
-    if(position<OpticalZoomTable[11]){
-        for(i=1;OpticalZoomTable[i]<=position;i++)
-        {
-            if(i==12){break;}
-        }
-        opt=i;
-        float f = ((float)(position-OpticalZoomTable[i-1]));
-        float f1 = ((float)(OpticalZoomTable[i]-OpticalZoomTable[i-1]));
-        if(f1!=0){opt+=f/f1;}
-        dig=1.0f;
-    }
-    else
+void CameraControl::process(void)
+{
+    static volatile long long int IdleTimeStamp = 0;
+    milliseconds ms = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+    switch(ProSt){
+    case SendCommands:
     {
-        opt=12.0f;
-        for(i=1;DigitalZoomTable[i]<=position;i++)
-        {
-            if(i==12){break;}
+        if(CamCtrlEnabled!=0){
+            ZoomSpeedPackAndSend(&fcber8300->Camera);
+            FocusPackAndSend(&fcber8300->Camera);//printf("\033[0;35m%lli:Camera write event \033[0m\n",CamS1.TimeSend);
         }
-        dig=i;
-
-        float f = ((float)(position-DigitalZoomTable[i-1]));
-        float f1 = ((float)(DigitalZoomTable[i]-DigitalZoomTable[i-1]));
-        if(f1!=0){dig+=f/f1;}
+        ProSt=WaitAckAndComplition;
+    }break;
+    case WaitAckAndComplition:
+    {
+        int len = read(fcber8300->Camera.fd,&buf,30);
+        if(len>0)
+        {// printf("\033[0;32m%lli:Camera read %i bytes\033[0m\n",ms.count(),len);
+            isOnline=true;
+            RespondTimeShtamp=ms.count();
+            //TODO: PARSER MUST BE Here for Zoom and Focus position parsing
+            ProSt=SendCommands;
+        }
+        else
+        {// printf("\033[0;31m%lli :Camera read empty or error %i \033[0m\n",ms.count(),len);
+            if(RespondTimeShtamp < ms.count()-4000)
+            {
+                isOnline=false;
+                printf("\033[0;31m %lli:Camera not respond ! \033[0m\n",ms.count());
+                ProSt=SendCommands;
+            }
+            if(fcber8300->Camera.TimeSend < ms.count()-41)
+            {
+                ProSt=SendCommands;
+            }
+        }
+    }break;
+    case MuteHighPriorityCommands:
+    {
+        if(IdleTimeStamp == 0)
+        {
+            IdleTimeStamp = ms.count();
+            printf("\033[0;35m%lli:CAMERA HIGH PRIORITY COMMAND MUTEX MODE ACTIVATED! \033[0m\r\n",IdleTimeStamp);
+        }
+        else if(IdleTimeStamp < ms.count()-3000)
+        {
+            printf("\033[0;35m%lli:CAMERA TIMEOUT OF MUTEX MODE NOW IS NORMAL MODE!\033[0m\r\n",IdleTimeStamp);
+            IdleTimeStamp=0;
+            ProSt=SendCommands;
+        }
+    }break;
+    default:
+    {
+        ProSt=SendCommands;
+    }break;
     }
-    return (opt*dig);
+
+    //ViscaParseBuf ((uint8_t*)buf,len ,&viscaParser,&CamS1);
+    //ZoomMagnification=( ZoomMagnification*0.8 ) + (0.2* fcber8300->ZoomPositionToMagnification(CamS1.ZoomPosition));
+
 }
+
+void CameraControl::VprintError (int err,long long int time) {
+    printf(COLOR_TEXT_RED);
+    switch(buf[2]){
+    case 1:   printf("%lld:VISCA Message length error %i \n",time,err);break;
+    case 2:   printf("%lld:VISCA Syntax Error %i \n",time,err);break;
+    case 3:   printf("%lld:VISCA Command buffer full %i \n",time,err);break;
+    case 4:   printf("%lld:VISCA Command cancelled %i \n",time,err);break;
+    case 5:   printf("%lld:VISCA No socket %i \n",time,err);break;
+    case 0x41:printf("%lld:VISCA No socketCommand not executable %i \n",time,err);break;
+    default:  printf("%lld:Zoom VISCA Unknown error %i \n",time,err);break;
+    }
+    printf(COLOR_RESET);
+}
+

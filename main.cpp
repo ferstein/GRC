@@ -12,10 +12,13 @@ int main(int argc, char *argv[])
 
     if(!lockFile.tryLock(100))
     {
-        printf("\r\nYou already have this app running.\r\nOnly one instance is allowed.\r\n");
+        printf("\r\n"
+               "You already have this app running.\r\n"
+               "Only one instance is allowed.\r\n");
         return 1;
     }
-    else{
+    else
+    {
     QApplication a(argc, argv);
     Widget w;
     w.show();

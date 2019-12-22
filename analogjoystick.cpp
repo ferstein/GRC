@@ -3,10 +3,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
-int Inited = 0;
+
 AnalogJoystick::AnalogJoystick()
 {
-     Init();
+    Inited=0;
+    Init();
 }
 AnalogJoystick::~AnalogJoystick()
 {
@@ -57,7 +58,7 @@ void AnalogJoystick::CalibrateZeros()
 {
     printf("Start of Joystick  calibration \n");
     int i,j;
-    for(i=0;i<1000;i++)
+    for(i=0;i<400;i++)
     {
         ReadRaw();
         for(j=0;j<6;j++)

@@ -13,23 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    er8300.cpp \
         widget.cpp \
-    VISCA/VISCA.cpp \
     SimpleGPIO.cpp \
     analogjoystick.cpp \
     gimbalcontrol.cpp \
     serialport.cpp \
-    camera.cpp
+    CameraControl.cpp
 
 HEADERS  += widget.h \
-    VISCA/libvisca.h \
-    VISCA/VISCA.h \
+    ConsoleEscSequ.h \
     analogjoystick.h \
     SimpleGPIO.h \
     gimbalcontrol.h \
     gimbal_defs.h \
     serialport.h \
-    camera.h
+    er8300.h \
+    CameraControl.h \
+    visca_definitions.h
 
 FORMS    += widget.ui
 
@@ -42,6 +43,5 @@ else: unix:!android: target.path = /home/debian/$${TARGET}
 
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    VISCA/VISCA.h.bak
+
 

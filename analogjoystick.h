@@ -34,6 +34,7 @@ public:
     int8_t FP;
 
 private:
+    int Inited;
     void ReadRaw();
     void ApplyValueAndOffset();
 };

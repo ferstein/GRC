@@ -91,6 +91,14 @@ private slots:
 
     void on_SliderZoomComp_valueChanged(int value);
 
+    void on_tabBar_tabBarClicked(int index);
+
+    void on_ButWBonePushTrigger_clicked();
+
+    void on_comboBoxColorBar_currentIndexChanged(int index);
+
+    void on_comboBoxWB_currentIndexChanged(int index);
+
 private:
     Ui::Widget *ui;
     QTimer JoyTimer;

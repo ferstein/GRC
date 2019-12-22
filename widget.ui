@@ -143,63 +143,63 @@
       <colorrole role="WindowText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>128</red>
-         <green>0</green>
-         <blue>191</blue>
+         <red>194</red>
+         <green>133</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Midlight">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>106</red>
-         <green>0</green>
-         <blue>159</blue>
+         <red>162</red>
+         <green>69</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Dark">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Mid">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>56</red>
-         <green>0</green>
-         <blue>84</blue>
+         <red>87</red>
+         <green>3</green>
+         <blue>170</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
         </color>
        </brush>
       </colorrole>
@@ -215,27 +215,27 @@
       <colorrole role="ButtonText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
-        </color>
-       </brush>
-      </colorrole>
-      <colorrole role="Base">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
          <red>0</red>
          <green>0</green>
          <blue>0</blue>
         </color>
        </brush>
       </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -251,9 +251,9 @@
       <colorrole role="AlternateBase">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>192</red>
+         <green>130</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -269,6 +269,15 @@
       <colorrole role="ToolTipText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="128">
          <red>0</red>
          <green>0</green>
          <blue>0</blue>
@@ -280,63 +289,63 @@
       <colorrole role="WindowText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>128</red>
-         <green>0</green>
-         <blue>191</blue>
+         <red>194</red>
+         <green>133</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Midlight">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>106</red>
-         <green>0</green>
-         <blue>159</blue>
+         <red>162</red>
+         <green>69</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Dark">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Mid">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>56</red>
-         <green>0</green>
-         <blue>84</blue>
+         <red>87</red>
+         <green>3</green>
+         <blue>170</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
         </color>
        </brush>
       </colorrole>
@@ -352,27 +361,27 @@
       <colorrole role="ButtonText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>255</red>
-         <green>255</green>
-         <blue>255</blue>
-        </color>
-       </brush>
-      </colorrole>
-      <colorrole role="Base">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
          <red>0</red>
          <green>0</green>
          <blue>0</blue>
         </color>
        </brush>
       </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -388,9 +397,9 @@
       <colorrole role="AlternateBase">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>192</red>
+         <green>130</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -406,6 +415,15 @@
       <colorrole role="ToolTipText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="128">
          <red>0</red>
          <green>0</green>
          <blue>0</blue>
@@ -417,63 +435,63 @@
       <colorrole role="WindowText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Light">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>128</red>
-         <green>0</green>
-         <blue>191</blue>
+         <red>194</red>
+         <green>133</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Midlight">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>106</red>
-         <green>0</green>
-         <blue>159</blue>
+         <red>162</red>
+         <green>69</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Dark">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Mid">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>56</red>
-         <green>0</green>
-         <blue>84</blue>
+         <red>87</red>
+         <green>3</green>
+         <blue>170</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
@@ -489,27 +507,27 @@
       <colorrole role="ButtonText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>42</red>
-         <green>0</green>
-         <blue>63</blue>
+         <red>65</red>
+         <green>2</green>
+         <blue>127</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -525,9 +543,9 @@
       <colorrole role="AlternateBase">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>85</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>130</red>
+         <green>5</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -543,6 +561,15 @@
       <colorrole role="ToolTipText">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="128">
          <red>0</red>
          <green>0</green>
          <blue>0</blue>
@@ -562,8 +589,20 @@
    <property name="cursor">
     <cursorShape>BlankCursor</cursorShape>
    </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>9</number>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="usesScrollButtons">
+    <bool>false</bool>
    </property>
    <widget class="QWidget" name="tabSpeed">
     <attribute name="title">
@@ -1697,6 +1736,9 @@ QSlider::handle:horizontal {
        <height>61</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>MANUAL</string>
      </property>
@@ -1923,6 +1965,617 @@ QSlider::handle:horizontal {
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_color">
+    <attribute name="title">
+     <string>COLOR</string>
+    </attribute>
+    <widget class="QLCDNumber" name="lcdColorGain">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>120</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorHue">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>190</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorRGain">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>260</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorBGain">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>330</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorGainMinus">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>COLOR
+GAIN -</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorGainPlus">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>120</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>COLOR
+GAIN +</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorBGainPlus">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>330</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>BLUE+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorBGainMinus">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>330</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>BLUE-</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorHuePlus">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>190</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>HUE+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorHueMinus">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>HUE-</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorRGainPlus">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>260</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>RED+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorRGainMinus">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>RED-</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorRGain_2">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>260</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorHueMinus_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>190</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>HUE-</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorGain_2">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>120</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorHuePlus_2">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>190</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>HUE+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorBGainPlus_2">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>330</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>BLUE+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorGainPlus_2">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>120</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>ColorGain+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorRGainPlus_2">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>260</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>RED+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorGainMinus_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>120</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>ColorGain-</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorHue_2">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>190</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorBGainMinus_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>330</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>BLUE-</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ButColorRGainMinus_2">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>260</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>121</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>RED-</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdColorBGain_2">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>330</y>
+       <width>81</width>
+       <height>61</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBoxWhiteBallance">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>451</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>WHITE BALANCE</string>
+     </property>
+     <widget class="QComboBox" name="comboBoxWB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>300</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ButWBonePushTrigger">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>30</y>
+        <width>121</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>121</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>121</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>ONE PUSH
+TRIG</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>0</y>
+       <width>301</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>COLOR BAR</string>
+     </property>
+     <widget class="QComboBox" name="comboBoxColorBar">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>280</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>280</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tabExposure">
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <attribute name="title">
+     <string>EXPOSURE</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Page</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Page</string>
+    </attribute>
+   </widget>
   </widget>
   <widget class="QLabel" name="labeCamCtrl">
    <property name="geometry">
@@ -1954,6 +2607,15 @@ QSlider::handle:horizontal {
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </active>
      <inactive>
       <colorrole role="WindowText">
@@ -1968,6 +2630,15 @@ QSlider::handle:horizontal {
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
          <red>255</red>
          <green>255</green>
          <blue>255</blue>
@@ -1991,6 +2662,15 @@ QSlider::handle:horizontal {
          <red>106</red>
          <green>104</green>
          <blue>100</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -2039,6 +2719,15 @@ QSlider::handle:horizontal {
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </active>
      <inactive>
       <colorrole role="WindowText">
@@ -2053,6 +2742,15 @@ QSlider::handle:horizontal {
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
          <red>255</red>
          <green>255</green>
          <blue>255</blue>
@@ -2076,6 +2774,15 @@ QSlider::handle:horizontal {
          <red>106</red>
          <green>104</green>
          <blue>100</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -2124,6 +2831,15 @@ QSlider::handle:horizontal {
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </active>
      <inactive>
       <colorrole role="WindowText">
@@ -2138,6 +2854,15 @@ QSlider::handle:horizontal {
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
          <red>255</red>
          <green>255</green>
          <blue>255</blue>
@@ -2161,6 +2886,15 @@ QSlider::handle:horizontal {
          <red>106</red>
          <green>104</green>
          <blue>100</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -2209,6 +2943,15 @@ QSlider::handle:horizontal {
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </active>
      <inactive>
       <colorrole role="WindowText">
@@ -2223,6 +2966,15 @@ QSlider::handle:horizontal {
       <colorrole role="Text">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
          <red>255</red>
          <green>255</green>
          <blue>255</blue>
@@ -2249,6 +3001,15 @@ QSlider::handle:horizontal {
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </disabled>
     </palette>
    </property>
@@ -2262,6 +3023,118 @@ QSlider::handle:horizontal {
    </property>
    <property name="text">
     <string>ZR</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labeFocusPos">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>443</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>106</red>
+         <green>104</green>
+         <blue>100</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>106</red>
+         <green>104</green>
+         <blue>100</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="text">
+    <string notr="true">F 12.0 A</string>
    </property>
   </widget>
  </widget>
