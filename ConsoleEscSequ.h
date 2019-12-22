@@ -1,0 +1,4 @@
+#ifndef CONSOLECOLOR_H
+#define CONSOLECOLOR_H
+
+#endif // CONSOLECOLOR_H
