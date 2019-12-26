@@ -247,6 +247,7 @@ typedef enum VISCA_commands:uint32_t
     //Pan Position is specified in units of 6 pixels and Tilt Position
     //is specified in units of 4.5 pixels (cut off after the decimal
     //point)
+    CommandNone                    = 0x00000000,
 
 } VISCA_commands_t;
 
@@ -402,7 +403,7 @@ typedef enum Inquiry_Command_List:uint32_t
     // bit2-AF Sensitivity 0: Low,1: Normal;bit3-4 - 0: Normal 1: Interval 2: Zoom Trigger
     // bit5- DZoomMode 0: Combine, 1: Separate
     CameraControlSystemInquiry=0x7e7e0100,  // Command Packet 8x 09 7E 7E 01 FF
-    OtherInquiry              =0x7e7e0200,  // Command Packet 8x 09 7E 7E 02 FF
+    MiscInquiry              =0x7e7e0200,  // Command Packet 8x 09 7E 7E 02 FF
     ExtendedFunction1Query    =0x7e7e0300,  // Command Packet 8x 09 7E 7E 03 FF
     ExtendedFunction2Query    =0x7e7e0400,  // Command Packet 8x 09 7E 7E 04 FF
     ExtendedFunction3Query    =0x7e7e0500,  // Command Packet 8x 09 7E 7E 05 FF
@@ -437,6 +438,7 @@ typedef enum Generic{
 /* TITLE STRUCTURE */
 typedef struct _VISCA_title
 {
+    Generic_t OnOff;
     uint8_t line;
     uint8_t hposition;
     uint8_t color;
@@ -454,11 +456,16 @@ typedef struct _MD_Window{
 }MD_Window_t;
 
 typedef     struct VisibilityEnhancer{//(CAM_VE)
-    uint8_t  Mode;
+    Generic_t  Mode;
     uint8_t  Brightness;
     uint8_t  BrightnessComp;
     uint8_t  BrightnessCompLevel;
 }VisibilityEnhancer_t;
+
+typedef enum VideoSystem:uint8_t{
+    VIDEO_59_94__29_97=0,
+    VIDEO_50_25=1,
+}VideoSystem_t;
 
 typedef  struct  Aperture{
     uint8_t Level;
@@ -487,27 +494,25 @@ typedef  struct Gamma{
 typedef struct PictureEffect{
     Generic_t LR_Reverse;
     Generic_t Freeze;
-    Generic_t PictureFlip;
-    uint8_t   BlackAndWgite;
+    Generic_t Flip;
+    uint8_t   BlackAndWhite;
+    uint8_t Mode ; // &?????????
+    uint8_t E_Flip;
 }PictureEffect_t;
 
 typedef  struct ICR{//IR Cut-Filter
     Generic_t ICROnOff;
-    Generic_t AutoICROnOff;
+    uint8_t AutoICROnOff;
     Generic_t AlarmReply;
-    uint8_t ExtendedONtoOfftreshold;//Must be enabled from register 0x5F bit 3
-    uint8_t ExtendedOnLevel;//Must be enabled from register 0x5F bit 3
+    uint8_t ExtendedOnOfftreshold;//Must be enabled from register 0x5F bit 3
+    uint8_t ExtendedOffOnLevel;//Must be enabled from register 0x5F bit 3
+    Generic_t Provided;
 }ICR_t;
 
-typedef struct ContinuousZoomPosReply{
+typedef struct ContinuousReply{
     Generic_t OnOff;
     uint8_t IntervalTime;
-}ContinuousZoomPosReply_t;
-
-typedef struct ContinuousFocusPosReply{
-    Generic_t OnOff;
-    uint8_t IntervalTime;
-}ContinuousFocusPosReply_t;
+}ContinuousPosReply_t;
 
 typedef struct ColorEnhance{
     uint8_t ThresholdLevel;
@@ -517,8 +522,8 @@ typedef struct ColorEnhance{
 } ColorEnhance_t;
 
 typedef struct HLC{
-    uint8_t Level; //HLC level (0: Off, 1: On)
-    uint8_t Mask;  //HLC mask level
+    Generic_t LevelOnOff; //HLC level (0: Off, 1: On)
+    uint8_t MaskOnOff;  //HLC mask level
 }HLC_t;
 
 typedef struct ElectronicPanTilt{
@@ -528,15 +533,20 @@ typedef struct ElectronicPanTilt{
 }ElectronicPanTilt_t;
 
 typedef struct CameraContext {
-    Generic_t  Power;
+    uint8_t  Power;
     uint16_t Zoom;
+    Generic_t  DZoomOnOff;
     uint8_t  DZoomMode;
     uint8_t  DZoom;
     uint8_t  FocusMode;
     uint16_t Focus;
+    uint16_t FocusNearLimit;
+    uint16_t FocusFarLimit;
+    uint8_t  FocusSpotMode;
     uint8_t  AFMode;
     uint8_t  AFSensitivity;
-    uint8_t  FocusSpotMode;
+    uint8_t  AFtime;
+    uint8_t  AFinterval;
     uint8_t  FocusSpotXposition;
     uint8_t  FocusSpotYposition;
     uint8_t  IRCorrection;
@@ -553,38 +563,50 @@ typedef struct CameraContext {
     uint8_t  SlowShutterLimit;
     uint8_t  Iris;
     uint8_t  Gain;
+    uint8_t  GainLimit;
+    uint8_t  GainPoint;
     uint8_t  Bright;
     uint8_t  ExposureCompensationOnOff;
     uint8_t  ExposureCompensation;
     uint8_t  ExposureCompensationExtended;//Must be enabled from register 0x5F bit 0
     uint8_t  BackLightCompensationOnOff;
-    uint8_t  AutoExposureSpotXposition;
-    uint8_t  AutoExposureSpotYposition;
-    uint8_t  AutoExposureResponse;
+    Generic_t  SpotAEMode;
+    uint8_t  SpotAEPositionX;
+    uint8_t  SpotAEPositionY;
+    uint8_t  AEresponse;
     uint8_t  DefogOnOff;
     VisibilityEnhancer_t VE;
-    Aperture_t Aperture;
-    uint8_t  HiResolutionOnOff;
-    NoiseRedution_t NR;
-    Gamma_t Gamma;
-    Generic_t HighSensitivity;
-    PictureEffect_t PE;
-    ICR_t ICR;
-    uint8_t Memory;//TODO: 16 presets of camera parameters, this place must be edited
+    Aperture_t       Aperture;
+    uint8_t          HiResolutionOnOff;
+    NoiseRedution_t  NR;
+    Gamma_t          Gamma;
+    Generic_t        HighSensitivity;
+    PictureEffect_t  PE;
+    ICR_t            ICR;
+    uint8_t   MemoryAddress;
+    uint16_t  MemoryData;
+    Generic_t MemoryProvided;
     Generic_t Display;
+    uint8_t   Stabilizer;
+    Generic_t StabiliserProvided;
+    VideoSystem_t System;
     VISCATitleData_t MultiLineTitle;
     Generic_t Mute;
-    uint16_t CamId;
+    uint8_t   MaskTableNum;
+    uint16_t  ID;
+    uint16_t  Model;
+    uint16_t  ModelAdditional;
     //FIXME:
     //CAM_PrivacyZone
     //CAM_MD (Motion detection
-    ContinuousZoomPosReply_t ZoomPosReply;
-    ContinuousFocusPosReply_t FocusPosReply;
+    ContinuousPosReply_t ZoomPosReply;
+    ContinuousPosReply_t FocusPosReply;
     uint8_t RegistersValue[12];
     ColorEnhance_t ColorEnhance;
     uint8_t ChromaSuppress;
     uint8_t ColorGain;
     uint8_t ColorHue;
+    uint8_t LensTemperature;
     uint8_t ColorGainExtended;//Must be enabled from register 0x5F bit 2
     uint8_t ColorHueExtended; //Must be enabled from register 0x5F bit 2
     HLC_t HLC;
@@ -617,13 +639,40 @@ typedef struct _VISCA_camera
 
 } VISCACamera_t;
 
+typedef enum ParserStep:uint8_t
+{
+    WaitHeader = 0,
+    WaitTerminator,
+}ParserStep_t;
 
+typedef struct ParserContent
+{
+    ParserStep_t ps;
+    uint8_t index;
+    uint8_t msg[16];
+    uint32_t ErrorCounter;
 
+}ParserContent_t;
+
+typedef enum DecoderStep:uint8_t{
+    Start = 0,
+
+}DecoderStep_t;
+
+typedef struct DecoderContent{
+    uint8_t len;
+    uint8_t *msg;
+    DecoderStep_t step;
+    uint32_t Error;
+}DecoderContent_t;
 
 class er8300
 {
 private:
-    enum PS:uint8_t{WaitHeader = 0,WaitReply,WaitInqiry,WaitStop,}ps;
+   ParserContent_t Parser;
+   DecoderContent_t  Decoder;
+   int DecodeMessage(void);
+   int DecodeInquiry(void);
 
 public:
     er8300();
@@ -631,7 +680,7 @@ public:
     float FocusPositionToDistanceAndModeFromContext(char * buf);
     int CommandPack(VISCAPacket_t * VISCA_packet , const VISCACamera_t * camera);
     int InquiryPack(VISCAPacket_t * VISCA_packet , const VISCACamera_t * camera);
-    int ParseBuf( uint8_t *buf,uint8_t len);
+    int ProcessMesages( uint8_t *buf,int len);
 
     CameraContext_t Context;
     VISCACamera_t Camera;
@@ -773,8 +822,8 @@ public:
     };
 
     struct _DZoomModeTable{
-        const uint8_t Value[5]={0x00,0x01,0x02,0x03,0x04};
-        const char ModeReadable[5][10]={"Combine","Saeparate","On","Off","SuperRes"};
+        const uint8_t Value[2]={0x00,0x01};
+        const char ModeReadable[2][10]={"Combine","Saeparate"};
     }DZoomModeTable;
 
     struct _FocusModeTable{

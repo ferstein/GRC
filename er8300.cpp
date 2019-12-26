@@ -7,8 +7,11 @@ er8300::er8300()
 {
     memset (&Context,0,sizeof (Context));
     memset (&Camera,0, sizeof (Camera));
+    memset (&Parser,0, sizeof (Parser));
+    memset (&Decoder,0, sizeof(Decoder));
     Camera.camnum=CAM1;
-    ps=WaitHeader;
+    Parser.ps=WaitHeader;
+    Decoder.step = Start;
 }
 
 float er8300::ZoomPositionToMagnification(uint32_t position)
@@ -171,12 +174,12 @@ int er8300::CommandPack(VISCAPacket_t * VISCA_packet , const VISCACamera_t * cam
         break;
         // Commands 7 bytes with two arguments
     case  HLCParameterSet: // 8x 01 04 14 0p 0q FF p: HLC level (0: Off, 1: On) q: HLC mask level
-        if(cam->HLCset.Mask >0x0f)return VISCA_ERROR_CMD_NOT_EXECUTABLE;
-        if(cam->HLCset.Level>0x01)return VISCA_ERROR_CMD_NOT_EXECUTABLE;
+        if(cam->HLCset.MaskOnOff >0x0f)return VISCA_ERROR_CMD_NOT_EXECUTABLE;
+        if(cam->HLCset.LevelOnOff>0x01)return VISCA_ERROR_CMD_NOT_EXECUTABLE;
         VISCA_packet->length = 0x07;
         VISCA_packet->bytes[3] = (command >> 16)&0xff;
-        VISCA_packet->bytes[4] = (cam->HLCset.Level)&0x0f;
-        VISCA_packet->bytes[5] = (cam->HLCset.Mask )&0x0f;
+        VISCA_packet->bytes[4] = (cam->HLCset.LevelOnOff)&0x0f;
+        VISCA_packet->bytes[5] = (cam->HLCset.MaskOnOff )&0x0f;
         VISCA_packet->bytes[6] = VISCA_TERMINATOR;
         break;
         //Commands 8 byte argumentless
@@ -601,8 +604,8 @@ int er8300::CommandPack(VISCAPacket_t * VISCA_packet , const VISCACamera_t * cam
         VISCA_packet->bytes[3] = (command >> 16)&0xff;
         VISCA_packet->bytes[4] = (command >> 8 )&0xff;
         break;
-        //    default:
-        //        return VISCA_ERROR_CMD_NOT_EXECUTABLE;
+    default:
+        return VISCA_ERROR_CMD_NOT_EXECUTABLE;
     }
     return (VISCA_SUCCESS);
 }
@@ -717,7 +720,7 @@ int ViscaInquiryCommandPack(VISCAPacket_t * VISCA_packet, VISCACamera_t * camera
     case ePTPositionInq:               // 8x 09 7E 06 20 FF
     case LensControlSystemInquiry:     // 8x 09 7E 7E 00 FF
     case CameraControlSystemInquiry:   // 8x 09 7E 7E 01 FF
-    case OtherInquiry              :   // 8x 09 7E 7E 02 FF
+    case MiscInquiry              :    // 8x 09 7E 7E 02 FF
     case ExtendedFunction1Query    :   // 8x 09 7E 7E 03 FF
     case ExtendedFunction2Query    :   // 8x 09 7E 7E 04 FF
     case ExtendedFunction3Query    :   // 8x 09 7E 7E 05 FF
@@ -757,179 +760,665 @@ int ViscaInquiryCommandPack(VISCAPacket_t * VISCA_packet, VISCACamera_t * camera
 }
 
 
-int er8300::ParseBuf (uint8_t *buf,uint8_t len)
+int er8300::ProcessMesages (uint8_t *buf,int len)
 {
-    uint8_t i = 0;
+    int i = 0;
     while (i< len)
     {
-        switch (ps){
+        switch (Parser.ps){
         case WaitHeader :
-        {
-            if(buf[i]==8+Camera.camnum)ps=WaitReply;
-            if(buf[i]==Camera.camnum<<4)ps=WaitInqiry;
-
-            i++;
-        }break;
-        case WaitReply:
-            switch(buf[i])
+            Parser.index=0;
+            if(buf[i]==(8+Camera.camnum)<<4 || buf[i]==0x88)
             {
-             case VISCA_ERROR_MESSAGE_LENGTH    :  //   0x01
-                break;
-             case VISCA_ERROR_SYNTAX            :  //   0x02
-                break;
-             case VISCA_ERROR_CMD_BUFFER_FULL   :  //   0x03
-                break;
-             case VISCA_ERROR_CMD_CANCELLED     :  //   0x04
-                break;
-             case VISCA_ERROR_NO_SOCKET         :  //   0x05
-                break;
-             case VISCA_ERROR_CMD_NOT_EXECUTABLE:  //   0x41
-                break;
-             default: break;
+                Parser.ps=WaitTerminator;
+                Parser.msg[Parser.index]=buf[i];
             }
-        break;
-        case WaitInqiry:{
-            switch(Camera.inquiry){
-            case ZoomPosInq        : // y0 50 0p 0q 0r 0s FF pqrs: Zoom Position
+            break;
+        case WaitTerminator:
+            Parser.index++;
+            if(Parser.index>sizeof(Parser.msg))
             {
-
-            }break;
-            case DZoomPosInq       : // y0 50 00 00 0p 0q FF pq: D-Zoom Position
-            {}break;
-            case FocusPosInq       : // y0 50 0p 0q 0r 0s FF pqrs: Focus Position
-            {}break;
-            case FocusNearLimitInq : // y0 50 0p 0q 0r 0s FF pqrs: Focus Near Limit Position
-            {}break;
-            case PowerInq          : // y0 50 02 FF On , y0 50 03 FF Off (Standby)
-            {}break;
-            case DZoomModeInq      : // y0 50 02 FF D-Zoom On , y0 50 03 FF D-Zoom Off
-            {}break;
-            case DZoomC_SModeInq   : // y0 50 00 FF Combine Mode , y0 50 01 FF Separate Mode
-            {}break;
-            case FocusModeInq      : // y0 50 02 FF Auto Focus , y0 50 03 FF Manual Focus
-            {}break;
-            case AFSensitivityInq  : // y0 50 02 FF AF Sensitivity Normal , y0 50 03 FF AF Sensitivity Low
-            {}break;
-            case AFModeInq         : // y0 50 00 FF Normal AF , y0 50 01 FF Interval AF , y0 50 02 FF Zoom Trigger AF
-            {}break;
-            case AFTimeSettingInq  : // y0 50 0p 0q 0r 0s FF pq: Movement Time, rs: Interval
-            {}break;
-            case IRCorrectionInq   : // y0 50 00 FF Standard, y0 50 01 FF IR Light
-            {}break;
-            case WBModeInq         : // y0 50 00 FF Auto, y0 50 01 FF Indoor, y0 50 02 FF Outdoor, y0 50 03 FF One Push WB
-                // y0 50 04 FF ATW, y0 50 05 FF Manual, y0 50 06 FF Outdoor Auto, y0 50 07 FF Sodium Lamp Auto
-                // y0 50 08 FF Sodium Lamp, y0 50 09 FF Sodium Lamp Outdoor Auto
-            {}break;
-            case RGainInq          : // y0 50 00 00 0p 0q FF pq: R Gain
-            {}break;
-            case BGainInq          : // y0 50 00 00 0p 0q FF pq: B Gain
-            {}break;
-            case AEModeInq         : // y0 50 00 FF Full Auto, y0 50 03 FF Manual
-                // y0 50 0A FF Shutter Priority, y0 50 0B FF Iris Priority, y0 50 0D FF Bright
-            {}break;
-            case SlowShutterInq: // y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case ShutterPosInq     : // y0 50 00 00 0p 0q FF pq: Shutter Position
-            {}break;
-            case IrisPosInq        : // y0 50 00 00 0p 0q FF pq: Iris Position
-            {}break;
-            case GainPosInq        : // y0 50 00 00 0p 0q FF pq: Gain Position
-            {}break;
-            case GainLimitInq      : // y0 50 0q FF p: Gain Limit
-            {}break;
-            case BrightPosInq      : // y0 50 00 00 0p 0q FF pq: Bright Position
-            {}break;
-            case ExpCompModeInq    : // y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case ExpCompPosInq     : // y0 50 00 00 0p 0q FF pq: ExpComp Position
-            {}break;
-            case BackLightModeInq  : // y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case SpotAEModeInq     : // y0 50 02 FF On , y0 50 03 FF Off
-            {}break;
-            case SpotAEPosInq      : // y0 50 0p 0q 0r 0s FF pq: X position, rs: Y position
-            {}break;
-            case AEResponseInq       :// y0 50 pp FF pp: 01h to 30h
-            {}break;
-            case DefogInq             :// y0 50 02 00 FF Defog ON , y0 50 03 00 FF Defog OFF
-            {}break;
-            case ApertureInq          :// y0 50 00 00 0p 0q FF pq: Aperture Gain
-            {}break;
-            case HRModeInq            :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case NoiseRedutionInq     :// y0 50 0p FF Noise Reduction p: 00h to 05h
-            {}break;
-            case GammaInq             :// y0 50 0p FF Gamma p: 00h to 04h
-            {}break;
-            case HighSensitivityInq   :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case LR_ReverseModeInq    :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case FreezeModeInq        :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case PictureEffectModeInq :// y0 50 00 FF Off, y0 50 02 FF Neg.Art, y0 50 04 FF Black & White
-            {}break;
-            case PictureFlipModeInq   :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case ICRModeInq           :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case AutoICRModeInq       :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case AutoICRThresholdInq  :// y0 50 00 00 0p 0q FF pq: ICR ON ? OFF Threshold Level
-            {}break;
-            case AutoICRAlarmReplyInq :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case MemoryInq            :// y0 50 pp FF pp: Memory number recalled last
-            {}break;
-            case MemSaveInq           :// y0 50 0p 0q 0r 0s FF X: 00h to 07h (Address)pqrs: 0000h to FFFFh (Data)
-            {}break;
-            case DisplayModeInq       :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case CAM_StabilizerModeInq    :// y0 05 02 FF On, y0 05 03 FF Off, y0 05 00 FF Hold
-            {}break;
-            case MuteModeInq          :// y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case PrivacyMonitorInq    :// y0 50 pp pp pp pp FF pp pp pp pp: Mask is displayed now.
-            {}break;
-            case IDInq                :// y0 50 0p 0q 0r 0s FF pqrs: Camera ID
-            {}break;
-            case VersionInq           :// y0 50 00 20 mn pq rs tu vw FF,mnpq: Model Code (04xx)rstu: ROM version vw: Socket Number (= 0x02)
-            {}break;
-            case ColorEnhanceInq      :// y0 50 mm 00 pp qq rr ss tt uu FF mm: Threshold level
-                                         //pp: Y fixed color for high-intensity
-               //                            qq: Cr fixed color for high-intensity
-               //                            rr: Cb fixed color for high-intensity
-               //                            ss: Y fixed color for low-intensity
-               //                            tt: Cr fixed color for low-intensity
-               //                            uu: Cb fixed color for low-intensity
-               //                            8x 09 04 50 FF , y0 50 02 FF On, y0 50 03 FF Off
-            {}break;
-            case ChromaSuppressInq     :// y0 50 pp FF pp: Chroma Suppress setting level
-            {}break;
-            case ColorGainInq          :// y0 50 00 00 00 0p FF p: Color Gain setting 0h (60%) to Eh (200%)
-            {}break;
-            case ColorHueInq           :// y0 50 00 00 00 0p FF p: Color Hue setting 0h (- 14 degrees) to Eh (+ 14 degrees)
-            {}break;
-            case TempInq               ://
-            {}break;
-            case Inq_none : break;
-           // default :
-           //     ps=0;
-           //     vp->datalen=0;
-           //     break;
+                Parser.index = 0;
+                Parser.ps = WaitHeader;
+                Parser.ErrorCounter++;
+                break;
             }
 
-        }break;
-        default :ps=WaitHeader; break;
+            Parser.msg[Parser.index]=buf[i];
+            if(buf[i]==0xff)
+            {
+                Decoder.len = Parser.index;
+                Decoder.msg = Parser.msg;
+                DecodeMessage();
+                Parser.ps = WaitHeader;
+            }
+            break;
         }
-
-        if(buf[i] == VISCA_TERMINATOR) ps = WaitHeader;
         i++;
-
     }
     return(0);
 }
 
+int er8300::DecodeMessage(void)
+{
+    if(Decoder.len<3){
+        Decoder.Error++;
+        return -1;
+    }
+    if(Decoder.len == 3)
+        // Acknowledge || Completion || Network Change X0 38 FF
+    {
+        switch(Decoder.msg[1]&0xf0){
+        case VISCA_RESPONSE_ACK:      //0x40
+            break;
+        case VISCA_RESPONSE_COMPLETED://0x50
+            break;
+        default:
+            if(Decoder.msg[1]==0x38)
+                break;
+        }
+    }
+    else
+        //len > 3  Error || Inquiry or Address Set 88 30 01 FF  88 30 02 FF Returned the device address to +1.
+    {
+        switch (Decoder.msg[1]&0xf0){
+        case VISCA_RESPONSE_ERROR:    //0x60
+            break;
+        case VISCA_RESPONSE_ADDRESS:  //0x30
+            break;
+        case VISCA_RESPONSE_INQIRY:   //0x50
+            DecodeInquiry();
+            break;
+        }
+    }
 
+    return 0;
+}
+
+int er8300::DecodeInquiry(void)
+{
+    uint8_t *msg = Decoder.msg;
+    if(msg==nullptr)return (-1);
+    switch(Camera.inquiry){
+    case Inq_none:
+        return 0;
+    case PowerInq          :
+        //y0 50 02 FF On ,
+        //y0 50 03 FF Off (Standby)
+        Context.Power=msg[2];
+        break;
+    case ZoomPosInq        :
+        //y0 50 0p 0q 0r 0s FF pqrs: Zoom Position
+        Context.Zoom = static_cast<uint16_t>(msg[5]+(msg[4]<<4)+(msg[3]<<8)+(msg[2]<<12));
+        break;
+    case DZoomModeInq      :
+        //y0 50 02 FF D-Zoom On ,
+        //y0 50 03 FF D-Zoom Off
+        Context.DZoomOnOff=static_cast<Generic_t>( msg[2]);
+        break;
+    case DZoomC_SModeInq   :
+        //y0 50 00 FF Combine Mode ,
+        //y0 50 01 FF Separate Mode
+        Context.DZoomMode=msg[2];
+        break;
+    case DZoomPosInq       :
+        //y0 50 00 00 0p 0q FF pq: D-Zoom Position
+        Context.DZoom =(msg[5]+(msg[4]<<4))&0xff;
+        break;
+    case FocusModeInq      :
+        //y0 50 02 FF Auto Focus , y0 50 03 FF Manual Focus
+        Context.FocusMode=msg[2];
+        break;
+    case FocusPosInq       :
+        //y0 50 0p 0q 0r 0s FF pqrs: Focus Position
+        Context.Focus = static_cast<uint16_t>(msg[5]+(msg[4]<<4)+(msg[3]<<8)+(msg[2]<<12));
+        break;
+    case FocusNearLimitInq :
+        //y0 50 0p 0q 0r 0s FF pqrs: Focus Near Limit Position
+         Context.FocusNearLimit = static_cast<uint16_t>(msg[5]+(msg[4]<<4)+(msg[3]<<8)+(msg[2]<<12));
+        break;
+    case SpotFocusModeInq  :
+        //y0 50 02 FF On ,
+        //y0 50 03 FF Off
+        Context.FocusSpotMode = msg[2];
+        break;
+    case SpotFocusPosInq   :
+        //y0 50 0p 0q 0r 0s FF pq: X, rs: Y
+        Context.FocusSpotXposition = static_cast<uint8_t>((msg[2]<<4)+(msg[3]));
+        Context.FocusSpotYposition = static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case AFSensitivityInq  :
+        //y0 50 02 FF AF Sensitivity Normal ,
+        //y0 50 03 FF AF Sensitivity Low
+        Context.AFSensitivity=msg[2];
+        break;
+    case AFModeInq         :
+        //y0 50 00 FF Normal AF ,
+        //y0 50 01 FF Interval AF ,
+        //y0 50 02 FF Zoom Trigger AF
+        Context.AFMode=msg[2];
+        break;
+    case AFTimeSettingInq  :
+        //y0 50 0p 0q 0r 0s FF pq: Movement Time, rs: Interval
+        Context.AFtime     = static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        Context.AFinterval = static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case LowLightBasisBrightnessInq:
+        //y0 50 02 FF On , y0 50 03 FF Off
+        Context.LowLightBasisBrightnessOnOff=msg[2];
+        break;
+    case LowLightBasisBrightnessPosInq:
+        //y0 50 0p FF p: Position
+        Context.LowLightBasisBrightness=msg[2];
+        break;
+    case IRCorrectionInq :
+        //y0 50 00 FF Standard, y0 50 01 FF IR Light
+        Context.IRCorrection=msg[2];
+        break;
+    case WBModeInq :
+        // y0 50 00 FF Auto,y0 50 01 FF Indoor,y0 50 02 FF Outdoor,y0 50 03 FF One Push WB
+        // y0 50 04 FF ATW,y0 50 05 FF Manual,y0 50 06 FF Outdoor Auto,y0 50 07 FF Sodium Lamp Auto
+        // y0 50 08 FF Sodium Lamp,y0 50 09 FF Sodium Lamp Outdoor Auto
+        Context.WBmode=msg[2];
+        break;
+    case RGainInq    :
+        //y0 50 00 00 0p 0q FF pq: R Gain
+        Context.GainRed =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case BGainInq    :
+        //y0 50 00 00 0p 0q FF pq: B Gain
+        Context.GainBlue =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case AEModeInq   :
+        // y0 50 00 FF Full Autoy0 50 03 FF Manual
+        // y0 50 0A FF Shutter Priority , y0 50 0B FF Iris Priority
+        // y0 50 0D FF Bright
+        Context.AutoExposureMode=msg[2];
+        break;
+    case ShutterPosInq        :
+        //y0 50 00 00 0p 0q FF pq: Shutter Position
+        Context.Shutter =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case MaxShutterInq        :
+        //y0 50 0p 0q FF pq: High-speed shutter limit
+        Context.ShutterLimitMax =  static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        break;
+    case MinShutterInq        :
+        //y0 50 0p 0q FF pq: Low-speed shutter limit
+        Context.ShutterLimitMin =  static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        break;
+    case SlowShutterInq       :
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.SlowShutterOnOff = msg[2];
+        break;
+    case SlowShutterLimitInq  :
+        //y0 50 0p 0q FF pq: Slow Shutter Limit
+        Context.SlowShutterLimit =  static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        break;
+    case IrisPosInq           :
+        //y0 50 00 00 0p 0q FF pq: Iris Position
+        Context.Iris =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case GainPosInq           :
+        //y0 50 00 00 0p 0q FF pq: Gain Position
+        Context.Gain =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case GainPointInq         :
+        //y0 50 0p 0q FF pq: Gain Point
+        Context.GainPoint =  static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        break;
+    case GainLimitInq         :
+        //y0 50 0q FF p: Gain Limit
+        Context.GainLimit =  msg[2];
+        break;
+    case BrightPosInq         :
+        //y0 50 00 00 0p 0q FF pq: Bright Position
+        Context.Bright =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case ExpCompModeInq       :
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.ExposureCompensationOnOff = msg[2];
+        break;
+    case ExpCompPosInq        :
+        //y0 50 00 00 0p 0q FF pq: ExpComp Position
+        Context.ExposureCompensation =  static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case BackLightModeInq     :
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.BackLightCompensationOnOff = msg[2];
+        break;
+    case SpotAEModeInq        :
+        //y0 50 02 FF On , y0 50 03 FF Off
+        Context.SpotAEMode = static_cast<Generic_t>( msg[2]);
+        break;
+    case SpotAEPosInq         :
+        //y0 50 0p 0q 0r 0s FF pq: X position, rs: Y position
+        Context.SpotAEPositionX = static_cast<uint8_t>((msg[2]<<4)+ msg[3]);
+        Context.SpotAEPositionY = static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case VEModeInq            :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off,
+        //y0 50 06 FF VE On
+        Context.VE.Mode = static_cast<Generic_t>( msg[2]);
+        break;
+    case VEParameterInq       :
+        // y0 50 00 0q 0r 0s 0t 0u 00 00 FF
+        // q: Display brightness level (0: Dark to 6: Bright)
+        // r: Brightness compensation selection (0: Very dark,// 1: Dark, 2: Standard, 3: Bright)
+        // s: Compensation level (00h: Low, 01h: Mid, 02h: High)
+        // tu: Always 0
+        Context.VE.Brightness = msg[3];
+        Context.VE.BrightnessComp = msg[4];
+        Context.VE.BrightnessCompLevel = msg[5];
+        break;
+    case AEResponseInq         :
+        //y0 50 pp FF pp: 01h to 30h
+        Context.AEresponse = msg[2];
+        break;
+    case DefogInq              :
+        //y0 50 02 00 FF Defog ON , y0 50 03 00 FF Defog OFF
+        Context.DefogOnOff = msg[2];
+        break;
+    case ApertureInq           :
+        //y0 50 00 00 0p 0q FF pq: Aperture Gain
+        Context.Aperture.Level = static_cast<uint8_t>((msg[4]<<4)+ msg[5]);
+        break;
+    case ApertureModeInq       :
+        //x0 50 0p FF p: Auto (0), Manual (1)
+        Context.Aperture.Mode = msg[2];
+        break;
+    case ApertureBandwidthInq  :
+        //x0 50 0p FF p: Bandwidth
+        Context.Aperture.BandWidth = msg[2];
+        break;
+    case ApertureCrispeningInq :
+        //x0 50 0p FF p: Crispening
+        Context.Aperture.Crispening = msg[2];
+        break;
+    case ApertureHVBalance     :
+        //x0 50 0p FF p: H/V Balance
+        Context.Aperture.HVbalance = msg[2];
+        break;
+    case ApertureBWBalance     :
+        //x0 50 0p FF p: B/W Balance
+        Context.Aperture.BWbalance = msg[2];
+        break;
+    case ApertureLimitInq      :
+        //x0 50 0p FF p: Limit
+        Context.Aperture.Limit = msg[2];
+        break;
+    case ApertureHighLightDetailInq:
+        //x0 50 0p FF p: High light detail
+        Context.Aperture.HighLightDetail = msg[2];
+        break;
+    case ApertureSuperLowInq   :
+        //x0 50 0p FF p: Super low emphasis
+        Context.Aperture.SuperLow = msg[2];
+        break;
+    case HRModeInq             :
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.HiResolutionOnOff = msg[2];
+        break;
+    case NoiseRedutionInq      :
+        //y0 50 0p FF Noise Reduction p: 00h to 05h
+        Context.NR.Level = msg[2];
+        break;
+    case NoiseRedution2D3DInq  :
+        //y0 50 0p 0q FF p: 2D NR Level, q: 3D NR Level
+        Context.NR.Level2D = msg[2];
+        Context.NR.Level3D = msg[3];
+        break;
+    case GammaInq              :
+        //y0 50 0p FF Gamma p: 00h to 04h
+        Context.Gamma.Mode = msg[2];
+        break;
+    case GammaPatternInq       :
+        //y0 50 0p 0q 0r FF pqr: Selection pattern
+        Context.Gamma.Pattern = static_cast<uint16_t>(((msg[2]<<8) + (msg[3]<<4) + msg[4]));
+        break;
+    case GammaOffsetInq        :
+        //y0 50 00 00 00 0s 0t 0u FF
+        //s: Polarity offset (0 is plus, 1 is minus)
+        //tu: Offset s=0 (00h to 40h) Offset s=1 (00h to 10h)
+        Context.Gamma.Offset = static_cast<int8_t>((msg[6]<<4) + msg[7]);
+        if(msg[5]!=0)Context.Gamma.Offset*=-1;
+        break;
+    case HighSensitivityInq    :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+         Context.HighSensitivity =static_cast<Generic_t>(msg[2]);
+        break;
+    case LR_ReverseModeInq     :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+        Context.PE.LR_Reverse =static_cast<Generic_t>(msg[2]);
+        break;
+    case FreezeModeInq         :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+        Context.PE.Freeze =static_cast<Generic_t>(msg[2]);
+        break;
+    case PictureEffectModeInq  :
+        //y0 50 00 FF Off,
+        //y0 50 02 FF Neg.Art,
+        //y0 50 04 FF Black & White
+        Context.PE.BlackAndWhite =static_cast<uint8_t>(msg[2]);
+        break;
+    case PictureFlipModeInq    :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+        Context.PE.Flip =static_cast<Generic_t>(msg[2]);
+        break;
+    case ICRModeInq            :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+        Context.ICR.ICROnOff =static_cast<Generic_t>(msg[2]);
+        break;
+    case AutoICRModeInq        :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+        Context.ICR.AutoICROnOff =static_cast<Generic_t>(msg[2]);
+        break;
+    case AutoICRThresholdInq   :
+        //y0 50 00 00 0p 0q FF pq: ICR ON -> OFF Threshold Level
+         Context.ICR.AutoICROnOff =static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case AutoICRAlarmReplyInq  :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+         Context.ICR.AlarmReply =static_cast<Generic_t>(msg[2]);
+        break;
+    case MemoryInq             :
+        //y0 50 pp FF pp: Memory number recalled last
+        Context.MemoryAddress=static_cast<uint8_t>(msg[2]);
+        break;
+    case MemSaveInq            :
+        //8x 09 04 23 0X FF ,
+        //y0 50 0p 0q 0r 0s FF pqrs: 0000h to FFFFh (Data),X: 00h to 07h (Address)
+         Context.MemoryData = static_cast<uint16_t>((msg[2]<<12)+(msg[3]<<8)+(msg[4]<<4)+msg[5]);
+        break;
+    case DisplayModeInq        :
+        //y0 50 02 FF On,
+        //y0 50 03 FF Off
+         Context.Display =static_cast<Generic_t>(msg[2]);
+        break;
+    case CAM_StabilizerModeInq :
+        //y0 05 02 FF On,
+        //y0 05 03 FF Off,
+        //y0 05 00 FF Hold
+         Context.Stabilizer =static_cast<uint8_t>(msg[2]);
+        break;
+    case MuteModeInq:
+        //y0 50 02 FF On, y0 50 03 FF Off
+         Context.Mute =static_cast<Generic_t>(msg[2]);
+        break;
+    case SetMaskTableInq:
+        //y0 50 0m FF m: Table
+        Context.MaskTableNum =static_cast<uint8_t>(msg[2]);
+        break;
+    case PrivacyDisplayInq:
+        //y0 50 pp pp pp pp FF pp pp pp pp: Mask Display (0: OFF, 1: ON)
+        //TODO: we dont use this
+        break;
+    case PrivacyPanTiltInq:
+        //y0 50 0p 0p 0p 0q 0q 0q FF ppp: Pan, qqq: Tilt
+        //TODO: we dont use this
+        break;
+    case PrivacyPTZInq:
+        //y0 50 0p 0p 0p 0q 0q 0q 0r 0r 0r 0r FF
+        //mm: Mask Settings, ppp: Pan, qqq: Tilt, rrrr: Zoom
+        //TODO: we dont use this
+        break;
+    case PrivacyMonitorInq:
+        //y0 50 pp pp pp pp FF pp pp pp pp: Mask is displayed now.
+        //TODO: we dont use this
+        break;
+    case IDInq:
+        //y0 50 0p 0q 0r 0s FF pqrs: Camera ID
+        Context.ID = static_cast<uint16_t>((msg[2]<<12)+(msg[3]<<8)+(msg[4]<<4)+msg[5]);
+        break;
+    case VersionInq:
+        //y0 50 00 20 mn pq rs tu vw FF
+        //mnpq: Model Code (04xx), vw: Socket Number (= 0x02)
+        Context.Model = static_cast<uint16_t>((msg[4]<<4)+msg[5]);
+        Context.ModelAdditional = static_cast<uint16_t>((msg[6]<<4)+msg[7]);
+        break;
+    case MDModeInq:
+        //y0 50 02 FF On,
+        //0 50 03 FF Off
+        //TODO: we dont use this
+        break;
+    case MDFunctionInq:
+        //y0 50 0m 0n 0p 0q 0r 0s FF m: Display mode
+        //n: Detection Frame Set (00h to 0Fh), pq: Threshold Level (00h to FFh)
+        //rs: Interval Time set (00h to FFh)
+        //TODO: we dont use this
+        break;
+    case MDWindowInq:
+        //y0 50 0p 0q 0r 0s FF m: Select Detection Frame (0, 1, 2, 3)
+        //p: Start Horizontal Position (00h to 0Fh), q: Start Vertical Position (00h to 07h)
+        //r: Stop Horizontal Position (01h to 10h), s: Stop Vertical Position (01h to 08h)*/
+        //TODO: we dont use this
+        break;
+    case ContinuousZoomPosReplyModeInq :
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.ZoomPosReply.OnOff = static_cast<Generic_t>(msg[2]);
+        break;
+    case ZoomPosReplyIntervalTimeInq   :
+        //y0 50 00 00 0p 0p FF pp: Interval Time
+        Context.ZoomPosReply.IntervalTime = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case ContinuousFocusPosReplyModeInq:
+        //y0 50 02 FF On, y0 50 03 FF Off
+        Context.FocusPosReply.OnOff = static_cast<Generic_t>(msg[2]);
+        break;
+    case FocusReplyIntervalTimeInq:
+        //y0 50 00 00 0p 0p FF pp: Interval Time
+        Context.FocusPosReply.IntervalTime = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case RegisterValueInq:
+        //y0 50 0p 0p FF mm: Register No. (= 0x00h to 7Fh)
+        //pp: Register Value (= 0x00h to FFh)
+        if(Camera.inquiryArgument<=0x7f)
+             Context.RegistersValue[Camera.inquiryArgument]= static_cast<uint8_t>((msg[2]<<4)+msg[3]);
+        break;
+    case ColorEnhanceInq:
+        // y0 50 mm 00 pp 40 40 ss 40 40 FF
+        // mm: Threshold level
+        // pp: Y fixed color for high-intensity
+        // ss: Y fixed color for low-intensity
+        Context.ColorEnhance.ThresholdLevel =  static_cast<Generic_t>(msg[2]);
+        Context.ColorEnhance.YfixedColorHighIntensity =  (msg[4]);
+        Context.ColorEnhance.YfixedColorLowIntensity =   (msg[7]);
+        break;
+    case ColorEnhanceModeInq   :
+        //y0 50 02 FF On, y0 50 03 FF Off*/
+         Context.ColorEnhance.OnOff =  static_cast<Generic_t>(msg[2]);
+        break;
+    case ChromaSuppressInq     :
+        //y0 50 pp FF pp: Chroma Suppress setting level
+        Context.ChromaSuppress =  static_cast<uint8_t>(msg[2]);
+        break;
+    case ColorGainInq          :
+        //y0 50 00 00 00 0p FF p: Color Gain setting 0h (60%) to Eh (200%)
+        Context.ColorGain =  static_cast<uint8_t>(msg[5]);
+        break;
+    case ColorHueInq           :
+        //y0 50 00 00 00 0p FF p: Color Hue setting 0h (- 14 degrees) to Eh (+ 14 degrees)
+        Context.ColorHue =  static_cast<uint8_t>(msg[5]);
+        break;
+    case TempInq               :
+        //y0 50 00 00 0p 0q FF pq: Lens Temperature
+        Context.LensTemperature = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case ExtendedExpCompPosInq :
+        //y0 50 00 00 0p 0q FF pq: Exposure compensation level pq = 00h to FFh
+        Context.ExposureCompensationExtended = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case ExtendedApertureInq   :
+        //y0 50 00 00 0p 0q FF pq: Aperture control level pq=00h to FFh
+        Context.Aperture.LevelExtended = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case ExtendedColorGainInq  :
+        //y0 50 0p 0q FF pq: Gain setting level, pq: 00h (0%) to FFh (200%)
+        Context.ColorGainExtended = static_cast<uint8_t>((msg[2]<<4)+msg[3]);
+        break;
+    case ExtendedColorHueInq   :
+        //y0 50 0p 0q FF pq: Phase setting level pq: 00h (-14 degree) to FFh (+14 degree)
+        Context.ColorHueExtended = static_cast<uint8_t>((msg[2]<<4)+msg[3]);
+        break;
+    case ExtendedAutoICRThresholdInq:
+        //y0 50 00 00 0p 0q FF pq: ICR ON→OFF threshold level when Auto ICR
+        //pq = 00h to FFh
+        Context.ICR.ExtendedOnOfftreshold = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case ExtendedAutoICROnLevelInq:
+        //y0 50 00 00 0p 0q FF pq: ICR OFF→ON threshold level when Auto ICR
+        //pq = 00h to 1Ch
+        Context.ICR.ExtendedOffOnLevel = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        break;
+    case HLCInq:
+        //y0 50 0p 0q FF p: HLC level (0: Off, 1: On)
+        //q: HLC mask level (0: On, 1: Off)
+        Context.HLC.LevelOnOff = static_cast<Generic_t>(msg[2]);
+        Context.HLC.MaskOnOff  = static_cast<Generic_t>(msg[3]);
+        break;
+    case CAM_ColorBarInq       :
+        // y0 50 00 FF Off
+        // y0 50 01 FF Color bar 100% 8 colors
+        // y0 50 02 FF Color bar 75% 7 colors,
+        // y0 50 03 FF Gray scale
+        Context.ColorBar = msg[2];
+        break;
+    case ePTModeInq:
+        //y0 50 02 FF On
+        //y0 50 03 FF Off
+        Context.EPT.OnOff = static_cast<Generic_t>(msg[2]);
+        break;
+    case ePTPositionInq:
+        //y0 50 00 00 0y 0y 0y 0y 0z 0z 0z 0z FF
+        //yyyy: Pan Position、 zzzz: Tilt Position
+        Context.EPT.PanPosition  = static_cast<uint16_t>((msg[4]<<12) + (msg[5]<<8) + (msg[6 ]<<4) + msg[7 ]);
+        Context.EPT.TiltPosition = static_cast<uint16_t>((msg[8]<<12) + (msg[9]<<8) + (msg[10]<<4) + msg[11]);
+        break;
+    case LensControlSystemInquiry:
+        // y0 50 0z 0z 0z 0z 0n 0n 0p 0p 0p 0p 00 vv uu FF:z - Zoom position, n - focus near limit
+        // p focus position, vv bit0-Focus Mode 0: Manual 1: Auto, bit1-Digital Zoom 1: On 0: Off
+        // bit2-AF Sensitivity 0: Low,1: Normal;bit3-4 - 0: Normal 1: Interval 2: Zoom Trigger
+        // bit5- DZoomMode 0: Combine, 1: Separate
+        Context.Zoom = static_cast<uint16_t>((msg[2]<<12)+(msg[3]<<8)+(msg[4]<<4)+msg[5]);
+        Context.FocusNearLimit = static_cast<uint16_t>((msg[6]<<4)+msg[7]);
+        Context.Focus = static_cast<uint16_t>((msg[8]<<12)+(msg[9]<<8)+(msg[10]<<4)+msg[11]);
+        Context.DZoomMode = (msg[13]&0x20)>>4;
+        if(msg[13]&0x02) Context.DZoomOnOff=Generic::On;
+        else Context.DZoomOnOff=Generic::Off;
+        Context.AFMode = (msg[13]&0x18)>>3;
+        if(msg[13]&0x04) Context.AFSensitivity = 0x03;
+        else  Context.AFSensitivity = 0x02;
+        break;
+    case CameraControlSystemInquiry:
+        Context.GainRed = static_cast<uint8_t>((msg[2]<<4)+msg[3]);
+        Context.GainBlue = static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        Context.WBmode = static_cast<uint8_t>(msg[6]);
+        Context.Aperture.Level =static_cast<uint8_t>(msg[7]);
+        Context.AutoExposureMode = static_cast<uint8_t>(msg[8]);
+        if(msg[9]&0x20)Context.HiResolutionOnOff = Generic::On;
+        else Context.HiResolutionOnOff = Generic::Off;
+        if(msg[9]&0x10)Context.VE.Mode = Generic::On;
+        else Context.VE.Mode = Generic::Off;
+        if(msg[9]&0x08)Context.SpotAEMode = Generic::On;
+        else Context.SpotAEMode = Generic::Off;
+        if(msg[9]&0x04)Context.BackLightCompensationOnOff = Generic::On;
+        else Context.BackLightCompensationOnOff = Generic::Off;
+        if(msg[9]&0x02)Context.ExposureCompensationOnOff = Generic::On;
+        else Context.ExposureCompensationOnOff = Generic::Off;
+        if(msg[9]&0x01)Context.SlowShutterOnOff = Generic::On;
+        else Context.SlowShutterOnOff = Generic::Off;
+
+        Context.Shutter = msg[10];
+        Context.Iris = msg[11];
+        Context.Gain = msg[12];
+        Context.Bright = msg[13];
+        Context.ExposureCompensation=msg[14];
+        break;
+    case MiscInquiry              :
+        if(msg[2]&0x08)Context.ICR.AlarmReply = Generic::On;
+        else Context.ICR.AlarmReply = Generic::Off;
+        if(msg[2]&0x04)Context.ICR.AutoICROnOff = Generic::On;
+        else Context.ICR.AutoICROnOff = Generic::Off;
+        if(msg[2]&0x01)Context.Power = Generic::On;
+        else Context.Power = Generic::Off;
+
+        if(msg[3]&0x40)Context.Stabilizer = Generic::On;
+        else Context.Stabilizer = Generic::Off;
+        if(msg[3]&0x10)Context.ICR.ICROnOff = Generic::On;
+        else Context.ICR.ICROnOff = Generic::Off;
+        if(msg[3]&0x08)Context.PE.Freeze = Generic::On;
+        else Context.PE.Freeze = Generic::Off;
+        if(msg[3]&0x04)Context.PE.LR_Reverse = Generic::On;
+        else Context.PE.LR_Reverse = Generic::Off;
+
+        //if(msg[4]&0x20)Context.PZ.OnOff= Generic::On;
+        //else Context.PZ.OnOff = Generic::Off;
+        if(msg[4]&0x10)Context.Mute= Generic::On;
+        else Context.Mute = Generic::Off;
+        if(msg[4]&0x08)Context.MultiLineTitle.OnOff= Generic::On;
+        else Context.MultiLineTitle.OnOff = Generic::Off;
+        if(msg[4]&0x04)Context.Display= Generic::On;
+        else Context.Display = Generic::Off;
+        Context.PE.Mode = msg[5];
+        Context.ID= static_cast<uint16_t>((msg[8]<<12)+(msg[9]<<8)+(msg[10]<<4)+msg[11]);
+
+        if(msg[12]&0x10)Context.MemoryProvided = Generic::On;
+        else Context.MemoryProvided = Generic::Off;
+
+        if(msg[12]&0x04)Context.ICR.Provided= Generic::On;
+        else Context.ICR.Provided = Generic::Off;
+
+        if(msg[12]&0x02)Context.StabiliserProvided= Generic::On;
+        else Context.StabiliserProvided = Generic::Off;
+
+        if(msg[12]&0x01)Context.System= VideoSystem::VIDEO_50_25;
+        else Context.System= VideoSystem::VIDEO_59_94__29_97;
+
+        break;
+    case ExtendedFunction1Query    :
+        Context.DZoom = static_cast<uint8_t>((msg[2]<<4)+msg[3]);
+        Context.AFtime= static_cast<uint8_t>((msg[4]<<4)+msg[5]);
+        Context.AFinterval = static_cast<uint8_t>((msg[6]<<4)+msg[7]);
+        Context.SpotAEPositionX = msg[8];
+        Context.SpotAEPositionY = msg[9];
+        //if(msg[10]&0x04)Context.MD.OnOff = Generic::On;
+        //else Context.MD.OnOff = Generic::Off;
+        if(msg[10]&0x01)Context.PE.E_Flip = Generic::On;
+        else Context.PE.E_Flip = Generic::Off;
+        Context.ColorGain = (msg[11]&0x78)>>3;
+        //
+        Context.AEresponse=msg[12];
+        //TODO: Bed camera documentation Context.Gamma.Offset = (msg[13]&70)>>4;
+        if(msg[13]&0x08)Context.HighSensitivity = Generic::On;
+        else Context.HighSensitivity = Generic::Off;
+
+        Context.NR.Level = msg[13]&0x07;
+        Context.ChromaSuppress = (msg[14]&0x70)>>4;
+        Context.GainLimit = msg[14]&0x0f;
+        break;
+    case ExtendedFunction2Query:
+        if(msg[2]&0x02)Context.VE.Mode = Generic::On;
+        else Context.VE.Mode = Generic::Off;
+        //FIXME: Tomorrow  !!!
+        1
+
+        break;
+    case ExtendedFunction3Query    :
+        Context.ColorHue = msg[2];
+        break;
+    //default:
+    }
+    Camera.inquiry=Inq_none;
+    Camera.inquiryArgument=0;
+    return 0;
+}
 
 

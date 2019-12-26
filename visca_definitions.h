@@ -52,6 +52,8 @@
 #define VISCA_RESPONSE_ADDRESS           0x30
 #define VISCA_RESPONSE_ACK               0x40
 #define VISCA_RESPONSE_COMPLETED         0x50
+#define VISCA_RESPONSE_INQIRY            0x50
 #define VISCA_RESPONSE_ERROR             0x60
+#define VISCA_RESPONSE_INTERFACE_BROADCAST   0x01
 
 #endif // VISCA_DEFINITIONS_H
